@@ -23,6 +23,11 @@ public class AudioManager : MonoBehaviour
     public GameObject PlayBtn;
     public GameObject PauseBtn;
 
+    public GameObject[] CycleBtns;
+
+    public GameObject musicObjects;
+    public Transform musicListParent;
+
     public SimpleButton prevBtn;
     public Image prevBtnImage;
 
@@ -38,6 +43,12 @@ public class AudioManager : MonoBehaviour
 
         LoadMusicList();
         initMusic();
+
+        for (int i = 0; i < musicList.Count; i++)
+        {
+            GameObject clone = Instantiate(musicObjects, musicListParent);
+            clone.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(50f, -100 * i, 0);
+        }
     }
 
     private void Update()
@@ -61,6 +72,8 @@ public class AudioManager : MonoBehaviour
         }
 
         TitleFeild.text = nowMusic.Artist + " - " + nowMusic.Title;
+
+        
     }
 
     //юсюг
@@ -82,7 +95,7 @@ public class AudioManager : MonoBehaviour
         int track;
 
         track = Random.Range(0, musicList.Count);
-        instance.disablePrevTrack();
+        instance.activePrevTrack(false);
 
         nowMusic = musicList[track];
         audio.clip = nowMusic.Clip;
@@ -103,19 +116,40 @@ public class AudioManager : MonoBehaviour
         isPause = true;
     }
 
-    public void disablePrevTrack()
+    public void activePrevTrack(bool active)
     {
         prevBtn.active = false;
         Color color = prevBtnImage.color;
-        color.a = 0.25f;
+        if (active)
+        {
+            color.a = 1f;
+        }
+        else
+        {
+            color.a = 0.5f;
+        }
         prevBtnImage.color = color;
     }
-    public void enablePrevTrack()
+
+    public void changeCycle()
     {
-        prevBtn.active = true;
-        Color color = prevBtnImage.color;
-        color.a = 1f;
-        prevBtnImage.color = color;
+        int length = System.Enum.GetValues(typeof(Cycle)).Length;
+        if ((int)nowCycle + 1 >= length)
+        {
+            nowCycle = 0;
+        }
+        else
+        {
+            nowCycle = nowCycle + 1;
+        }
+
+        for (int i = 0; i < length; i++)
+        {
+            if (nowCycle.Equals((Cycle)i))
+                CycleBtns[i].SetActive(true);
+            else
+                CycleBtns[i].SetActive(false);
+        }
     }
 
     public static void changeTrack(int type)
@@ -132,12 +166,12 @@ public class AudioManager : MonoBehaviour
             nowMusic = MusicStack.Pop();
             if (MusicStack.Count == 0)
             {
-                instance.disablePrevTrack();
+                instance.activePrevTrack(false);
             }
         }
         else
         {
-            instance.enablePrevTrack();
+            instance.activePrevTrack(true);
             switch (nowCycle)
             {
                 case Cycle.Cycle:
