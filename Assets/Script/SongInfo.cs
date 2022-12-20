@@ -7,7 +7,7 @@ public class SongInfo : MonoBehaviour
     public Vector3 movePos;
     public SimpleButton btn;
 
-    public float smoothValue;
+    public float smoothValue = 8f;
 
     private Vector3 originPos;
 
@@ -21,12 +21,12 @@ public class SongInfo : MonoBehaviour
         RectTransform trans = GetComponent<RectTransform>();
         if (btn.isHighlighted)
         {
-            Vector3 smoothedPos = Vector3.Lerp(trans.anchoredPosition3D, originPos + movePos, smoothValue);
+            Vector3 smoothedPos = Vector3.Lerp(trans.anchoredPosition3D, originPos + movePos, smoothValue * Time.deltaTime);
             trans.anchoredPosition3D = smoothedPos;
         }
         else
         {
-            Vector3 smoothedPos = Vector3.Lerp(trans.anchoredPosition3D, originPos, smoothValue);
+            Vector3 smoothedPos = Vector3.Lerp(trans.anchoredPosition3D, originPos, smoothValue * Time.deltaTime);
             trans.anchoredPosition3D = smoothedPos;
         }
     }

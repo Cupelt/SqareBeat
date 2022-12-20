@@ -7,7 +7,7 @@ public class AudioVisualizer : MonoBehaviour
     public AudioSource Audio;
     public GameObject bar;
 
-    public float smoothSpeed = 0.125f;
+    public float smoothSpeed = 8f;
 
     private void Start()
     {
@@ -31,7 +31,7 @@ public class AudioVisualizer : MonoBehaviour
             if (!transform.childCount.Equals(spectrumData.Length))
                 return;
 
-            Vector3 smoothedPosition = Vector3.Lerp(transform.GetChild(i - 1).localScale, new Vector3(1, spectrumData[i] * 250 + 1, 1), smoothSpeed);
+            Vector3 smoothedPosition = Vector3.Lerp(transform.GetChild(i - 1).localScale, new Vector3(1, spectrumData[i] * 250 + 1, 1), smoothSpeed * Time.deltaTime);
 
             transform.GetChild(i - 1).localScale = smoothedPosition;
         }

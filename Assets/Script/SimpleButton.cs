@@ -11,6 +11,8 @@ public class SimpleButton : MonoBehaviour
     public float clickScale = 1.05f;
     public float highlightScale = 1.1f;
 
+    public float smoothSpeed = 8f;
+
     public GameObject isPopUp;
     public bool isHighlighted = false;
 
@@ -30,12 +32,12 @@ public class SimpleButton : MonoBehaviour
         {
             if (Input.GetMouseButton(0))
             {
-                Vector3 smoothedPos = Vector3.Lerp(trans.localScale, Vector3.one * clickScale, 0.125f);
+                Vector3 smoothedPos = Vector3.Lerp(trans.localScale, Vector3.one * clickScale, smoothSpeed * Time.deltaTime);
                 trans.localScale = smoothedPos;
             }
             else
             {
-                Vector3 smoothedPos = Vector3.Lerp(trans.localScale, Vector3.one * highlightScale, 0.125f);
+                Vector3 smoothedPos = Vector3.Lerp(trans.localScale, Vector3.one * highlightScale, smoothSpeed * Time.deltaTime);
                 trans.localScale = smoothedPos;
                 isHighlighted = true;
             }
@@ -58,7 +60,7 @@ public class SimpleButton : MonoBehaviour
         } 
         else 
         {
-            Vector3 smoothedPos = Vector3.Lerp(trans.localScale, new Vector3(1.0f, 1.0f, 1.0f), 0.125f);
+            Vector3 smoothedPos = Vector3.Lerp(trans.localScale, new Vector3(1.0f, 1.0f, 1.0f), smoothSpeed * Time.deltaTime);
             trans.localScale = smoothedPos;
             isHighlighted = false;
         }

@@ -14,7 +14,7 @@ public class SideBar : MonoBehaviour
 
     public bool isOpend = false;
     public bool isSlected = false;
-    public float delay = 0.125f;
+    public float smoothSpeed = 8f;
 
     private void Update()
     {
@@ -49,7 +49,7 @@ public class SideBar : MonoBehaviour
 
         for (int i = 0; i < rectTrans.Length; i++)
         {
-            Vector3 smoothedPos = Vector3.Lerp(rectTrans[i].anchoredPosition3D, appearPos * mulitple[i], delay);
+            Vector3 smoothedPos = Vector3.Lerp(rectTrans[i].anchoredPosition3D, appearPos * mulitple[i], smoothSpeed * Time.deltaTime);
             rectTrans[i].anchoredPosition3D = smoothedPos;
         }
     }
@@ -61,7 +61,7 @@ public class SideBar : MonoBehaviour
 
         for (int i = 0; i < rectTrans.Length; i++)
         {
-            Vector3 smoothedPos = Vector3.Lerp(rectTrans[i].anchoredPosition3D, hidePos * mulitple[i], delay);
+            Vector3 smoothedPos = Vector3.Lerp(rectTrans[i].anchoredPosition3D, hidePos * mulitple[i], smoothSpeed * Time.deltaTime);
             rectTrans[i].anchoredPosition3D = smoothedPos;
         }
     }

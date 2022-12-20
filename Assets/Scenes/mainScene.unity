@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1590681256}
-  smoothSpeed: 0.25
+  smoothSpeed: 5
   offset: {x: 0, y: 0, z: 0}
 --- !u!114 &57212296
 MonoBehaviour:
@@ -319,6 +319,7 @@ MonoBehaviour:
         m_CallState: 2
   clickScale: 1.1
   highlightScale: 1.25
+  smoothSpeed: 8
   isPopUp: {fileID: 0}
   isHighlighted: 0
   active: 1
@@ -376,7 +377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movePos: {x: 0, y: 100, z: 0}
   btn: {fileID: 1790599746}
-  smoothValue: 0.125
+  smoothValue: 8
 --- !u!114 &239860421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -482,6 +483,7 @@ MonoBehaviour:
         m_CallState: 2
   clickScale: 1.1
   highlightScale: 1.25
+  smoothSpeed: 8
   isPopUp: {fileID: 0}
   isHighlighted: 0
   active: 1
@@ -1651,6 +1653,7 @@ GameObject:
   - component: {fileID: 602218343}
   - component: {fileID: 602218342}
   - component: {fileID: 602218344}
+  - component: {fileID: 602218345}
   m_Layer: 5
   m_Name: Right
   m_TagString: Untagged
@@ -1735,7 +1738,20 @@ MonoBehaviour:
   mulitple: 01000000
   isOpend: 0
   isSlected: 0
-  delay: 0.125
+  smoothSpeed: 8
+--- !u!114 &602218345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602218340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowMaskGraphic: 1
 --- !u!1 &615972442
 GameObject:
   m_ObjectHideFlags: 0
@@ -1841,6 +1857,7 @@ MonoBehaviour:
         m_CallState: 2
   clickScale: 1.1
   highlightScale: 1.25
+  smoothSpeed: 8
   isPopUp: {fileID: 0}
   isHighlighted: 0
   active: 1
@@ -1911,6 +1928,7 @@ MonoBehaviour:
         m_CallState: 2
   clickScale: 1.1
   highlightScale: 1.25
+  smoothSpeed: 8
   isPopUp: {fileID: 0}
   isHighlighted: 0
   active: 1
@@ -2115,6 +2133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nowSel: 0
+  smoothSpeed: 10
 --- !u!1 &701727312
 GameObject:
   m_ObjectHideFlags: 0
@@ -2537,7 +2556,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Audio: {fileID: 1456852161}
   bar: {fileID: 2208601892827090042, guid: 7d535d533af60d74fb4b8c0d4c1f360d, type: 3}
-  smoothSpeed: 0.25
+  smoothSpeed: 12
 --- !u!1 &772130779
 GameObject:
   m_ObjectHideFlags: 0
@@ -2627,7 +2646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1805032118}
-  smoothSpeed: 0.25
+  smoothSpeed: 5
   offset: {x: 0, y: 0, z: 0}
 --- !u!1 &786014544
 GameObject:
@@ -3746,6 +3765,7 @@ MonoBehaviour:
         m_CallState: 2
   clickScale: 1.1
   highlightScale: 1.25
+  smoothSpeed: 8
   isPopUp: {fileID: 0}
   isHighlighted: 0
   active: 0
@@ -4474,26 +4494,39 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0df6b292fe0290d4890b7f07e08dd91a, type: 3}
   - {fileID: 8300000, guid: 090b718710e50384b91ed96cfa6c3800, type: 3}
   - {fileID: 8300000, guid: c7f2340c0005bd84fb60ffef6bab6588, type: 3}
+  - {fileID: 8300000, guid: c5e60ae14070e7a4e9d72b826296209b, type: 3}
+  - {fileID: 8300000, guid: b5b66378df73d9f4cae1224e1ee3ddd7, type: 3}
+  - {fileID: 8300000, guid: 3603ab0150413f849b5c7567f46d4790, type: 3}
+  - {fileID: 8300000, guid: cd38f6948e43fec48ad13895604c18a7, type: 3}
+  - {fileID: 8300000, guid: 9503e6e5c78a0fe40a5c3fbcc356ee12, type: 3}
   artist:
   - Camellia feat. Nanahira
   - Camellia
   - Camellia
   - Morimoriatsushi
   - Camellia
+  - ReeK
+  - Neko Hacker feat. Nanahira
+  - HyuN
+  - ueotan
+  - LeaF
   title:
   - Kurisumasunante kyomi naikedo
   - Qyoh (Nine Stars)
   - NUCLEAR STAR
   - PUPA
   - Hello (2022)
+  - Possessed By The Blood Moon
+  - pipopipo -People People-
+  - Princess of Winter
+  - Mario Paint (Time Regression Mix)
+  - Wizdomiot (extended ver.)
   PlayBtn: {fileID: 1636030970}
   PauseBtn: {fileID: 670862029}
   CycleBtns:
   - {fileID: 2086050263}
   - {fileID: 289727895}
   - {fileID: 1873964018}
-  musicObjects: {fileID: 4955730861455485633, guid: ac6d03c3be5100744a35dae257fc9d6f, type: 3}
-  musicListParent: {fileID: 815838621}
   prevBtn: {fileID: 1231126377}
   prevBtnImage: {fileID: 1231126375}
   TitleFeild: {fileID: 1715710503}
@@ -4903,6 +4936,7 @@ MonoBehaviour:
         m_CallState: 2
   clickScale: 1.1
   highlightScale: 1.25
+  smoothSpeed: 8
   isPopUp: {fileID: 0}
   isHighlighted: 0
   active: 1
@@ -5089,7 +5123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 772130780}
-  smoothSpeed: 0.25
+  smoothSpeed: 5
   offset: {x: 0, y: 0, z: 0}
 --- !u!114 &1590681258
 MonoBehaviour:
@@ -5166,7 +5200,7 @@ MonoBehaviour:
   mulitple: 01000000ffffffff
   isOpend: 0
   isSlected: 0
-  delay: 0.125
+  smoothSpeed: 8
 --- !u!224 &1590874446
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5373,6 +5407,7 @@ MonoBehaviour:
         m_CallState: 2
   clickScale: 1.1
   highlightScale: 1.25
+  smoothSpeed: 8
   isPopUp: {fileID: 0}
   isHighlighted: 0
   active: 1
@@ -5791,6 +5826,8 @@ MonoBehaviour:
   sideBar: {fileID: 1590874445}
   songList: {fileID: 602218344}
   isListEnable: 0
+  musicObjects: {fileID: 4955730861455485633, guid: ac6d03c3be5100744a35dae257fc9d6f, type: 3}
+  musicListParent: {fileID: 815838621}
 --- !u!114 &1752240352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5897,6 +5934,7 @@ MonoBehaviour:
       m_Calls: []
   clickScale: 1.1
   highlightScale: 1.25
+  smoothSpeed: 8
   isPopUp: {fileID: 0}
   isHighlighted: 0
   active: 1
@@ -6005,7 +6043,6 @@ GameObject:
   - component: {fileID: 1815387144}
   - component: {fileID: 1815387146}
   - component: {fileID: 1815387145}
-  - component: {fileID: 1815387147}
   m_Layer: 5
   m_Name: SelectBar
   m_TagString: Untagged
@@ -6071,19 +6108,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1815387143}
   m_CullTransparentMesh: 1
---- !u!114 &1815387147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1815387143}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 1
 --- !u!1 &1835957689
 GameObject:
   m_ObjectHideFlags: 0
@@ -6270,6 +6294,7 @@ MonoBehaviour:
         m_CallState: 2
   clickScale: 1.1
   highlightScale: 1.25
+  smoothSpeed: 8
   isPopUp: {fileID: 0}
   isHighlighted: 0
   active: 1
@@ -6878,6 +6903,7 @@ MonoBehaviour:
         m_CallState: 2
   clickScale: 1.1
   highlightScale: 1.25
+  smoothSpeed: 8
   isPopUp: {fileID: 0}
   isHighlighted: 0
   active: 1

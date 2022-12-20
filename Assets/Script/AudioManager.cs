@@ -10,7 +10,7 @@ public class AudioManager : MonoBehaviour
 
     public static bool isPause = false;
     public static AudioSource audio;
-    private static AudioManager instance;
+    public static AudioManager instance;
     public static Cycle nowCycle = Cycle.Cycle;
 
     public List<AudioClip> clips;
@@ -25,16 +25,12 @@ public class AudioManager : MonoBehaviour
 
     public GameObject[] CycleBtns;
 
-    public GameObject musicObjects;
-    public Transform musicListParent;
-
     public SimpleButton prevBtn;
     public Image prevBtnImage;
 
     public Text TitleFeild;
 
-    private static MusicInfo nowMusic;
-    private List<GameObject> musicObjectList;
+    public static MusicInfo nowMusic;
 
     void Awake()
     {
@@ -44,19 +40,6 @@ public class AudioManager : MonoBehaviour
 
         LoadMusicList();
         initMusic();
-
-        musicObjectList = new List<GameObject>();
-        for (int i = 0; i < musicList.Count; i++)
-        {
-            GameObject clone = Instantiate(musicObjects, musicListParent);
-            MusicInfo info = musicList[i];
-            string musicInfo = info.Artist + " - " + info.Title;
-            clone.name = musicInfo;
-            clone.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(50f, -100 * i, 0);
-            clone.transform.GetChild(0).GetComponent<Text>().text = musicInfo;
-            clone.transform.GetChild(0).GetComponent<SimpleButton>().onClick.AddListener(() => { setTrack(info); } );
-            musicObjectList.Add(clone);
-        }
     }
 
     private void Update()
@@ -80,7 +63,6 @@ public class AudioManager : MonoBehaviour
         }
 
         TitleFeild.text = nowMusic.Artist + " - " + nowMusic.Title;
-        moveMusicListObject();
     }
 
     //юсюг
@@ -97,40 +79,9 @@ public class AudioManager : MonoBehaviour
         musicList.Sort((x, y) => x.Artist.CompareTo(y.Artist));
     }
 
-    public void moveMusicListObject()
-    {
-        for (int i = 0; i < instance.musicObjectList.Count; i++)
-        {
-            List<GameObject> list = instance.musicObjectList;
-            RectTransform trans = list[i].GetComponent<RectTransform>();
-
-            int track = musicList.IndexOf(nowMusic);
-            if (track == -1)
-            {
-                initMusic();
-                return;
-            }
-
-            Vector3 pos = new Vector3(50f, -100 * (i - track), 0);
-            if (i == track)
-            {
-                list[i].transform.GetChild(0).GetComponent<SimpleButton>().active = false;
-                pos.x = 0f;
-            }
-            else
-            {
-                list[i].transform.GetChild(0).GetComponent<SimpleButton>().active = true;
-            }
-            Vector3 smoothedPos = Vector3.Lerp(trans.anchoredPosition3D, pos, 0.125f);
-            trans.anchoredPosition3D = smoothedPos;
-        }
-    }
-
     public static void initMusic()
     {
-        int track;
-
-        track = Random.Range(0, musicList.Count);
+        int track = 9; //Random.Range(0, musicList.Count);
         instance.activePrevTrack(false);
 
         nowMusic = musicList[track];
