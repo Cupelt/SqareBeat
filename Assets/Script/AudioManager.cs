@@ -34,6 +34,7 @@ public class AudioManager : MonoBehaviour
     public Text TitleFeild;
 
     private static MusicInfo nowMusic;
+    private List<GameObject> musicObjectList;
 
     void Awake()
     {
@@ -44,10 +45,17 @@ public class AudioManager : MonoBehaviour
         LoadMusicList();
         initMusic();
 
+        musicObjectList = new List<GameObject>();
         for (int i = 0; i < musicList.Count; i++)
         {
             GameObject clone = Instantiate(musicObjects, musicListParent);
+            MusicInfo info = musicList[i];
+            string musicInfo = info.Artist + " - " + info.Title;
+            clone.name = musicInfo;
             clone.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(50f, -100 * i, 0);
+            clone.transform.GetChild(0).GetComponent<Text>().text = musicInfo;
+            clone.transform.GetChild(0).GetComponent<SimpleButton>().onClick.AddListener(() => { setTrack(info); } );
+            musicObjectList.Add(clone);
         }
     }
 
@@ -72,8 +80,7 @@ public class AudioManager : MonoBehaviour
         }
 
         TitleFeild.text = nowMusic.Artist + " - " + nowMusic.Title;
-
-        
+        moveMusicListObject();
     }
 
     //юсюг
@@ -88,6 +95,35 @@ public class AudioManager : MonoBehaviour
         }
 
         musicList.Sort((x, y) => x.Artist.CompareTo(y.Artist));
+    }
+
+    public void moveMusicListObject()
+    {
+        for (int i = 0; i < instance.musicObjectList.Count; i++)
+        {
+            List<GameObject> list = instance.musicObjectList;
+            RectTransform trans = list[i].GetComponent<RectTransform>();
+
+            int track = musicList.IndexOf(nowMusic);
+            if (track == -1)
+            {
+                initMusic();
+                return;
+            }
+
+            Vector3 pos = new Vector3(50f, -100 * (i - track), 0);
+            if (i == track)
+            {
+                list[i].transform.GetChild(0).GetComponent<SimpleButton>().active = false;
+                pos.x = 0f;
+            }
+            else
+            {
+                list[i].transform.GetChild(0).GetComponent<SimpleButton>().active = true;
+            }
+            Vector3 smoothedPos = Vector3.Lerp(trans.anchoredPosition3D, pos, 0.125f);
+            trans.anchoredPosition3D = smoothedPos;
+        }
     }
 
     public static void initMusic()
@@ -118,7 +154,7 @@ public class AudioManager : MonoBehaviour
 
     public void activePrevTrack(bool active)
     {
-        prevBtn.active = false;
+        prevBtn.active = active;
         Color color = prevBtnImage.color;
         if (active)
         {
@@ -155,6 +191,7 @@ public class AudioManager : MonoBehaviour
     public static void changeTrack(int type)
     {
         int track = musicList.IndexOf(nowMusic);
+        MusicInfo music;
         if (track == -1)
         {
             initMusic();
@@ -163,7 +200,7 @@ public class AudioManager : MonoBehaviour
 
         if (type == 1)
         {
-            nowMusic = MusicStack.Pop();
+            music = MusicStack.Pop();
             if (MusicStack.Count == 0)
             {
                 instance.activePrevTrack(false);
@@ -193,14 +230,19 @@ public class AudioManager : MonoBehaviour
                     }
                     break;
             }
-            nowMusic = musicList[track];
+            music = musicList[track];
         }
+        setTrack(music);
+    }
+
+    public static void setTrack(MusicInfo music)
+    {
+        nowMusic = music;
 
         audio.clip = nowMusic.Clip;
         audio.time = 0;
         audio.Play();
     }
-
     public struct MusicInfo
     {
         public MusicInfo(string _atrist, string _title, AudioClip _clip)

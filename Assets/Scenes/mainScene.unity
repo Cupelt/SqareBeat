@@ -3748,7 +3748,7 @@ MonoBehaviour:
   highlightScale: 1.25
   isPopUp: {fileID: 0}
   isHighlighted: 0
-  active: 1
+  active: 0
 --- !u!1 &1246945997
 GameObject:
   m_ObjectHideFlags: 0
@@ -4472,14 +4472,20 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5485f01a10204cd43b4ec29f477a08f8, type: 3}
   - {fileID: 8300000, guid: e4a96e384445ef54a97dfa34b79bf938, type: 3}
   - {fileID: 8300000, guid: 0df6b292fe0290d4890b7f07e08dd91a, type: 3}
+  - {fileID: 8300000, guid: 090b718710e50384b91ed96cfa6c3800, type: 3}
+  - {fileID: 8300000, guid: c7f2340c0005bd84fb60ffef6bab6588, type: 3}
   artist:
   - Camellia feat. Nanahira
   - Camellia
+  - Camellia
+  - Morimoriatsushi
   - Camellia
   title:
   - Kurisumasunante kyomi naikedo
   - Qyoh (Nine Stars)
   - NUCLEAR STAR
+  - PUPA
+  - Hello (2022)
   PlayBtn: {fileID: 1636030970}
   PauseBtn: {fileID: 670862029}
   CycleBtns:

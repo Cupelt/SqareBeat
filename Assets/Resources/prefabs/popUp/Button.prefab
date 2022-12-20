@@ -215,11 +215,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16347b494e9705d439f97535440209bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ClickField: {fileID: 6401324886080022490}
   onClick:
     m_PersistentCalls:
       m_Calls: []
+  clickScale: 1.05
+  highlightScale: 1.1
   isPopUp: {fileID: 0}
+  isHighlighted: 0
+  active: 1
 --- !u!1 &6401324886080022489
 GameObject:
   m_ObjectHideFlags: 0

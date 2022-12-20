@@ -25,10 +25,7 @@ public class MenuSelectBar : MonoBehaviour
         bool isPopUp = MenuManager.isPopUp;
         runtime += Time.deltaTime;
 
-        if (runtime < 1)
-            return;
-
-        if (Util.CheckMousePos(SelectBar.anchoredPosition3D, new Vector3(SelectBar.sizeDelta.x / 2, SelectBar.sizeDelta.y / 2, 0), true))
+        if (Util.CheckMousePos(SelectBar.anchoredPosition3D, new Vector3(SelectBar.sizeDelta.x / 2, SelectBar.sizeDelta.y / 2, 0), true) && runtime > 1)
         {
             if (Input.GetMouseButton(0))
             {
@@ -66,7 +63,7 @@ public class MenuSelectBar : MonoBehaviour
             }
         }
 
-        if (!Input.GetMouseButton(0))
+        if (!Input.GetMouseButton(0) && runtime > 1)
         {
             Vector3 clickPos = new Vector3(-650, SelectBar.anchoredPosition3D.y, SelectBar.anchoredPosition3D.z);
             Vector3 smoothedPos = Vector3.Lerp(SelectBar.anchoredPosition3D, clickPos, 0.125f);

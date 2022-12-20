@@ -71,6 +71,7 @@ public class PopUpManager : MonoBehaviour
 
             clone.transform.parent = popUpClone.transform;
             clone.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0, -170, 0);
+            clone.transform.localScale = Vector3.one;
             clone.SetActive(true);
 
             btnList.Add(clone);

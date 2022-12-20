@@ -45,6 +45,11 @@ public class MenuManager : MonoBehaviour
             songList.fadeInSideBar();
         else
             songList.fadeOutSideBar();
+
+        if (Input.GetKeyDown(KeyCode.Space) && sideBar.isOpend)
+        {
+            AudioManager.Pause();
+        }
     }
 
     public void ToggleSongList()
