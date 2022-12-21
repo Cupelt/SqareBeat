@@ -25,8 +25,20 @@ public class AppearAnimation : MonoBehaviour
 
     public bool isDone = false;
 
+    private List<float> imgColor = new List<float>();
+    private List<float> textColor = new List<float>();
+
     private void Awake()
     {
+        for (int i = 0; i < img.Length; i++)
+        {
+            imgColor.Add(img[i].color.a);
+        }
+
+        for (int i = 0; i < text.Length; i++)
+        {
+            textColor.Add(text[i].color.a);
+        }
         StartCoroutine(Animation(gameObject));
     }
 
@@ -59,14 +71,14 @@ public class AppearAnimation : MonoBehaviour
                 for (int i = 0; i < img.Length; i++)
                 {
                     color = img[i].color;
-                    color.a = min + animaiton.Evaluate(time) * reverse;
+                    color.a = min + animaiton.Evaluate(time) * reverse * imgColor[i];
                     img[i].color = color;
                 }
 
                 for (int i = 0; i < text.Length; i++)
                 {
                     color = text[i].color;
-                    color.a = min + animaiton.Evaluate(time) * reverse;
+                    color.a = min + animaiton.Evaluate(time) * reverse * textColor[i];
                     text[i].color = color;
                 }
             }

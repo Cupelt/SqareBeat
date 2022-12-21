@@ -32,7 +32,6 @@ public class AudioVisualizer : MonoBehaviour
                 return;
 
             Vector3 smoothedPosition = Vector3.Lerp(transform.GetChild(i - 1).localScale, new Vector3(1, spectrumData[i] * 250 + 1, 1), smoothSpeed * Time.deltaTime);
-
             transform.GetChild(i - 1).localScale = smoothedPosition;
         }
     }

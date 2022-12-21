@@ -55,7 +55,7 @@ public class MenuManager : MonoBehaviour
             SelectBar.nowSel = 7 - (int)(mousePos.y - 15) / 100;
         }
 
-        if (!Util.CheckMousePos(Vector3.zero, new Vector3(widith * 2f, 400f, 0), true) || (isListEnable && songList.isSlected))
+        if (!Util.CheckMousePos(Vector3.zero, new Vector3(widith * 2f, 475f, 0), true) || (isListEnable && songList.isSlected))
         {
             sideBar.fadeInSideBar();
         }
@@ -116,6 +116,11 @@ public class MenuManager : MonoBehaviour
         {
             AudioManager.Pause();
         }
+    }
+
+    public void SelectMenu()
+    {
+
     }
 
     public int moveMusicListObject(int offset)
