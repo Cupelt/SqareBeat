@@ -25,6 +25,7 @@ public class MenuManager : MonoBehaviour
     private List<GameObject> musicObjectList;
     public GameObject musicObjects;
     public Transform musicListParent;
+    public GameObject menuBtns;
 
     private bool isScrolled = false;
     private float scrollSelectTime = 0f;
@@ -88,6 +89,8 @@ public class MenuManager : MonoBehaviour
         {
             fixedColor.a = Mathf.Lerp(fixedColor.a, 0.025f, Time.deltaTime * 8f);
             mainText.SetActive(false);
+            menuBtns.GetComponent<AppearAniParents>().onEnableAll();
+            SelectBar.gameObject.SetActive(true);
             selectMenuTime += Time.deltaTime;
             if (selectMenuTime > 30f || Input.GetKeyDown(KeyCode.Escape))
             {
@@ -98,6 +101,8 @@ public class MenuManager : MonoBehaviour
         {
             fixedColor.a = Mathf.Lerp(fixedColor.a, 1f, Time.deltaTime * 8f);
             mainText.SetActive(true);
+            menuBtns.GetComponent<AppearAniParents>().onDisableAll();
+            SelectBar.gameObject.SetActive(false);
             selectMenuTime = 0;
         }
         icon.GetComponent<Image>().color = fixedColor;

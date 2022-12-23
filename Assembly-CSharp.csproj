@@ -76,6 +76,7 @@
     <Compile Include="Assets\Script\MusicSlider.cs" />
     <Compile Include="Assets\Script\Menu\MenuSelectBar.cs" />
     <Compile Include="Assets\Script\Audio\AudioVisualizer.cs" />
+    <Compile Include="Assets\Script\Menu\AppearAniParents.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

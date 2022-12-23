@@ -9,11 +9,12 @@ using UnityEditor;
 
 public class AppearAnimation : MonoBehaviour
 {
-    public enum fadeType { fadeIn, fadeOut, NONE }
+    public enum fadeType { fadeIn, fadeOut }
 
     public AnimationCurve animaiton;
 
     public fadeType fade;
+    public bool isfadeInOut = true;
 
     public Image[] img;
     public Text[] text;
@@ -23,12 +24,13 @@ public class AppearAnimation : MonoBehaviour
 
     public Vector3 movePos; // 움직일 정도
 
-    public bool isDone = false;
+    public bool isDone = true;
 
     private List<float> imgColor = new List<float>();
     private List<float> textColor = new List<float>();
 
-    private void OnEnable()
+
+    private void Awake()
     {
         for (int i = 0; i < img.Length; i++)
         {
@@ -51,11 +53,31 @@ public class AppearAnimation : MonoBehaviour
                 text[i].color = fixedColor;
             }
         }
-        StartCoroutine(Animation(gameObject));
     }
 
-    IEnumerator Animation(GameObject obj)
+    private void OnEnable()
     {
+        GetComponent<RectTransform>().anchoredPosition3D = GetComponent<RectTransform>().anchoredPosition3D - movePos;
+        StartCoroutine(Animation(fade, false));
+    }
+
+    public void onDisable()
+    {
+        fadeType reverse;
+        if (fade.Equals(fadeType.fadeIn))
+            reverse = fadeType.fadeOut;
+        else
+            reverse = fadeType.fadeIn;
+
+        StartCoroutine(Animation(reverse, true));
+    }
+
+    IEnumerator Animation(fadeType _fade, bool setDisable)
+    {
+        if (!isDone)
+            yield break;
+
+        isDone = false;
         yield return new WaitForSeconds(offset);
 
         float time = 0f;
@@ -64,20 +86,21 @@ public class AppearAnimation : MonoBehaviour
         RectTransform trans = gameObject.GetComponent<RectTransform>();
         Vector3 beforePos = trans.anchoredPosition3D;
 
+        float reverse = 1f;
+        float min = 0f;
+        if (_fade.Equals(fadeType.fadeOut))
+        {
+            reverse = -1f;
+            min = 1f;
+        }
+
         while (time < 1)
         {
             time += Time.deltaTime / delay;
 
-            trans.anchoredPosition3D = beforePos + (animaiton.Evaluate(time) * movePos);
-            if (!fade.Equals(fadeType.NONE))
+            trans.anchoredPosition3D = beforePos + ((min + animaiton.Evaluate(time) * reverse) * movePos);
+            if (isfadeInOut)
             {
-                float reverse = 1f;
-                float min = 0f;
-                if (fade.Equals(fadeType.fadeOut))
-                {
-                    reverse = -1f;
-                    min = 1f;
-                }
 
                 for (int i = 0; i < img.Length; i++)
                 {
@@ -96,6 +119,9 @@ public class AppearAnimation : MonoBehaviour
 
             yield return null;
         }
+        isDone = true;
+        if (setDisable)
+            gameObject.SetActive(false);
         yield break;
     }
 }
