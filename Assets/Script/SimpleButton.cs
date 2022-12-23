@@ -8,6 +8,8 @@ public class SimpleButton : MonoBehaviour
 {
     public UnityEvent onClick;
 
+    public bool animation = true;
+
     public float clickScale = 1.05f;
     public float highlightScale = 1.1f;
 
@@ -30,15 +32,19 @@ public class SimpleButton : MonoBehaviour
         Vector3 WorldPoint = Util.getWorldPoint(trans);
         if (Util.CheckMousePos(new Vector3(WorldPoint.x, WorldPoint.y, 0), new Vector3(trans.sizeDelta.x / 2, trans.sizeDelta.y / 2, 0), true))
         {
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) && animation)
             {
                 Vector3 smoothedPos = Vector3.Lerp(trans.localScale, Vector3.one * clickScale, smoothSpeed * Time.deltaTime);
                 trans.localScale = smoothedPos;
             }
-            else
+            else if (animation)
             {
                 Vector3 smoothedPos = Vector3.Lerp(trans.localScale, Vector3.one * highlightScale, smoothSpeed * Time.deltaTime);
                 trans.localScale = smoothedPos;
+                isHighlighted = true;
+            }
+            else
+            {
                 isHighlighted = true;
             }
 
@@ -58,10 +64,14 @@ public class SimpleButton : MonoBehaviour
                 }
             }
         } 
-        else 
+        else if (animation)
         {
             Vector3 smoothedPos = Vector3.Lerp(trans.localScale, new Vector3(1.0f, 1.0f, 1.0f), smoothSpeed * Time.deltaTime);
             trans.localScale = smoothedPos;
+            isHighlighted = false;
+        }
+        else 
+        {
             isHighlighted = false;
         }
     }

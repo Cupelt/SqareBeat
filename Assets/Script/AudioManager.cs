@@ -81,7 +81,7 @@ public class AudioManager : MonoBehaviour
 
     public static void initMusic()
     {
-        int track = 9; //Random.Range(0, musicList.Count);
+        int track = Random.Range(0, musicList.Count);
         instance.activePrevTrack(false);
 
         nowMusic = musicList[track];

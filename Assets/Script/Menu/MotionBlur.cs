@@ -17,6 +17,9 @@ public class MotionBlur : MonoBehaviour
         Vector3 smoothedPosition = Vector3.Lerp(transform.localScale, desiredPosition, smoothSpeed * Time.deltaTime);
         transform.localScale = smoothedPosition;
 
+        if (target.Equals(transform))
+            return;
+
         Color fixedColor = target.GetComponent<Image>().color;
         fixedColor.a = fixedColor.a * 0.75f;
         GetComponent<Image>().color = fixedColor;

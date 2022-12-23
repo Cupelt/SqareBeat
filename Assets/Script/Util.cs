@@ -21,6 +21,8 @@ public class Util : MonoBehaviour
     public static Component CopyComponent(Component original, GameObject destination)
     {
         System.Type type = original.GetType();
+        bool active = destination.active;
+        destination.SetActive(false);
         Component copy = destination.AddComponent(type);
         // Copied fields can be restricted with BindingFlags
         System.Reflection.FieldInfo[] fields = type.GetFields();
@@ -28,6 +30,7 @@ public class Util : MonoBehaviour
         {
             field.SetValue(copy, field.GetValue(original));
         }
+        destination.SetActive(active);
         return copy;
     }
 

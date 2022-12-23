@@ -12,8 +12,6 @@ public class PopUpManager : MonoBehaviour
 
     public AnimationCurve bgCurve;
 
-    public List<AppearAnimation> CompList; 
-
     public List<GameObject> btn;
     public GameObject messageBar;
     public GameObject typeImage;
@@ -21,7 +19,7 @@ public class PopUpManager : MonoBehaviour
 
     public string message;
 
-    private List<AppearAnimation> AnimationList = new List<AppearAnimation>();
+    public List<AppearAnimation> AnimationList = new List<AppearAnimation>();
 
     public bool isAnimation = false;
 
@@ -54,8 +52,6 @@ public class PopUpManager : MonoBehaviour
 
         popUpClone.transform.GetChild(0).GetChild(0).GetComponent<Image>().color = imageColor; // ¿Ü°û¼±
         popUpClone.transform.GetChild(0).GetChild(1).GetComponent<Image>().color = imageColor;
-
-        imageColor.a = 0;
 
         popUpClone.transform.GetChild(1).GetComponent<Image>().color = imageColor;
 
@@ -142,6 +138,8 @@ public class PopUpManager : MonoBehaviour
                 child = popUp.transform.GetChild(i + 1).gameObject;
             else
                 child = popUp.btn[i - 2].gameObject;
+
+            Debug.Log(child);
 
             Util.CopyComponent(popUp.AnimationList[i], child);
         }

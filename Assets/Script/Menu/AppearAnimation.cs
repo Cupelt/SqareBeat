@@ -28,16 +28,28 @@ public class AppearAnimation : MonoBehaviour
     private List<float> imgColor = new List<float>();
     private List<float> textColor = new List<float>();
 
-    private void Awake()
+    private void OnEnable()
     {
         for (int i = 0; i < img.Length; i++)
         {
             imgColor.Add(img[i].color.a);
+            if (fade.Equals(fadeType.fadeIn))
+            {
+                Color fixedColor = img[i].color;
+                fixedColor.a = 0;
+                img[i].color = fixedColor;
+            }
         }
 
         for (int i = 0; i < text.Length; i++)
         {
             textColor.Add(text[i].color.a);
+            if (fade.Equals(fadeType.fadeIn))
+            {
+                Color fixedColor = text[i].color;
+                fixedColor.a = 0;
+                text[i].color = fixedColor;
+            }
         }
         StartCoroutine(Animation(gameObject));
     }
@@ -67,18 +79,17 @@ public class AppearAnimation : MonoBehaviour
                     min = 1f;
                 }
 
-                Color color;
                 for (int i = 0; i < img.Length; i++)
                 {
-                    color = img[i].color;
-                    color.a = min + animaiton.Evaluate(time) * reverse * imgColor[i];
+                    Color color = img[i].color;
+                    color.a = (min + animaiton.Evaluate(time) * reverse) * imgColor[i];
                     img[i].color = color;
                 }
 
                 for (int i = 0; i < text.Length; i++)
                 {
-                    color = text[i].color;
-                    color.a = min + animaiton.Evaluate(time) * reverse * textColor[i];
+                    Color color = text[i].color;
+                    color.a = (min + animaiton.Evaluate(time) * reverse) * textColor[i];
                     text[i].color = color;
                 }
             }

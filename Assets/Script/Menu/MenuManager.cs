@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static AudioManager;
 
 public class MenuManager : MonoBehaviour
 {
@@ -13,6 +12,9 @@ public class MenuManager : MonoBehaviour
 
     public SideBar sideBar;
     public SideBar songList;
+
+    public GameObject icon;
+    public GameObject mainText;
 
     public static int widith = 1920;
     public static int height = 1080;
@@ -27,14 +29,18 @@ public class MenuManager : MonoBehaviour
     private bool isScrolled = false;
     private float scrollSelectTime = 0f;
     private int scrollValue = 0;
+    private bool isSetSong = false;
+
+    private bool selectMenu = false;
+    private float selectMenuTime = 0;
 
     private void Awake()
     {
         musicObjectList = new List<GameObject>();
-        for (int i = 0; i < musicList.Count; i++)
+        for (int i = 0; i < AudioManager.musicList.Count; i++)
         {
             GameObject clone = Instantiate(musicObjects, musicListParent);
-            MusicInfo info = musicList[i];
+            AudioManager.MusicInfo info = AudioManager.musicList[i];
             string musicInfo = info.Artist + " - " + info.Title;
             clone.name = musicInfo;
             clone.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(50f, -100 * i, 0);
@@ -50,7 +56,7 @@ public class MenuManager : MonoBehaviour
 
         Vector3 mousePos = Util.getMousePos();
 
-        if (Util.CheckMousePos(new Vector3(325f, 470f, 0), new Vector3(325f, 330f, 0)))
+        if (Util.CheckMousePos(new Vector3(960f, 470f, 0), new Vector3(325f, 330f, 0)))
         {
             SelectBar.nowSel = 7 - (int)(mousePos.y - 15) / 100;
         }
@@ -75,6 +81,28 @@ public class MenuManager : MonoBehaviour
             songList.fadeOutSideBar();
         }
 
+        icon.GetComponent<SimpleButton>().active = !sideBar.isOpend;
+
+        Color fixedColor = icon.GetComponent<Image>().color;
+        if (selectMenu)
+        {
+            fixedColor.a = Mathf.Lerp(fixedColor.a, 0.025f, Time.deltaTime * 8f);
+            mainText.SetActive(false);
+            selectMenuTime += Time.deltaTime;
+            if (selectMenuTime > 30f || Input.GetKeyDown(KeyCode.Escape))
+            {
+                setSelectMenu(false);
+            }
+        }
+        else
+        {
+            fixedColor.a = Mathf.Lerp(fixedColor.a, 1f, Time.deltaTime * 8f);
+            mainText.SetActive(true);
+            selectMenuTime = 0;
+        }
+        icon.GetComponent<Image>().color = fixedColor;
+
+
         InputCheck();
 
         if (isListEnable && songList.isSlected)
@@ -88,7 +116,7 @@ public class MenuManager : MonoBehaviour
             }
         }
 
-        if (isScrolled)
+        if (isScrolled || isSetSong)
         {
             int selectedMusic = moveMusicListObject(scrollValue);
             scrollSelectTime += Time.deltaTime;
@@ -97,10 +125,11 @@ public class MenuManager : MonoBehaviour
                 isScrolled = false;
                 scrollSelectTime = 0;
                 scrollValue = 0;
+                isSetSong = false;
 
-                if (!musicList[selectedMusic].Equals(nowMusic))
+                if (!AudioManager.musicList[selectedMusic].Equals(AudioManager.nowMusic))
                 {
-                    setTrack(musicList[selectedMusic]);
+                    AudioManager.setTrack(AudioManager.musicList[selectedMusic]);
                 }
             }
         }
@@ -118,26 +147,33 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    public void SelectMenu()
+    public void setSelectMenu(bool isOpen)
     {
+        selectMenu = isOpen;
+    }
 
+    public void setTrack(AudioManager.MusicInfo info)
+    {
+        isSetSong = true;
+        scrollValue = AudioManager.musicList.Count - AudioManager.musicList.IndexOf(AudioManager.nowMusic) + AudioManager.musicList.IndexOf(info);
+        scrollSelectTime = 0;
     }
 
     public int moveMusicListObject(int offset)
     {
-        int track = musicList.IndexOf(nowMusic);
+        int track = AudioManager.musicList.IndexOf(AudioManager.nowMusic);
         if (track == -1)
         {
-            initMusic();
+            AudioManager.initMusic();
             return -1;
         }
 
         track += offset;
-        track = track % musicList.Count;
-        if (track >= musicList.Count)
+        track = track % AudioManager.musicList.Count;
+        if (track >= AudioManager.musicList.Count)
             track = 0;
         else if (track < 0)
-            track = musicList.Count - 1;
+            track = AudioManager.musicList.Count - 1;
 
         for (int i = 0; i < musicObjectList.Count; i++)
         {

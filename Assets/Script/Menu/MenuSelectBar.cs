@@ -10,15 +10,11 @@ public class MenuSelectBar : MonoBehaviour
     private float runtime = 0f;
     private RectTransform SelectBar;
 
-    private Vector2[] SelectChildPos = new Vector2[7];
-
-    private void Awake()
+    private void OnEnable()
     {
         SelectBar = GetComponent<RectTransform>();
-        for (int i = 0; i < SelectChildPos.Length; i++)
-        {
-            SelectChildPos[i] = transform.GetChild(i).position;
-        }
+        SelectBar.anchoredPosition3D = Vector3.up * 580;
+
     }
 
     // Update is called once per frame
@@ -31,9 +27,9 @@ public class MenuSelectBar : MonoBehaviour
         {
             if (Input.GetMouseButton(0))
             {
-                Vector3 clickPos = new Vector3(-650 - 50, SelectBar.anchoredPosition3D.y, SelectBar.anchoredPosition3D.z);
-                Vector3 smoothedPos = Vector3.Lerp(SelectBar.anchoredPosition3D, clickPos, smoothSpeed * Time.deltaTime);
-                SelectBar.anchoredPosition3D = smoothedPos;
+                Vector3 clickPos = new Vector3(SelectBar.anchoredPosition3D.x, 225f - 150f * nowSel, SelectBar.anchoredPosition3D.z);
+                Vector3 smoothedPosition = Vector3.Lerp(SelectBar.anchoredPosition3D, clickPos, smoothSpeed * Time.deltaTime);
+                SelectBar.anchoredPosition3D = smoothedPosition;
             }
 
             if (Input.GetMouseButtonUp(0))
@@ -65,20 +61,11 @@ public class MenuSelectBar : MonoBehaviour
             }
         }
 
-        if (!Input.GetMouseButton(0) && runtime > 1)
+        if (!Input.GetMouseButton(0))
         {
-            Vector3 clickPos = new Vector3(-650, SelectBar.anchoredPosition3D.y, SelectBar.anchoredPosition3D.z);
-            Vector3 smoothedPos = Vector3.Lerp(SelectBar.anchoredPosition3D, clickPos, smoothSpeed * Time.deltaTime);
-            SelectBar.anchoredPosition3D = smoothedPos;
-        }
-
-        Vector3 afterPos = new Vector3(SelectBar.anchoredPosition3D.x, 225f - 100f * nowSel, SelectBar.anchoredPosition3D.z);
-        Vector3 smoothedPosition = Vector3.Lerp(SelectBar.anchoredPosition3D, afterPos, smoothSpeed * Time.deltaTime);
-        SelectBar.anchoredPosition3D = smoothedPosition;
-
-        for (int i = 0; i < SelectChildPos.Length; i++)
-        {
-            transform.GetChild(i).position = SelectChildPos[i];
+            Vector3 clickPos = new Vector3(SelectBar.anchoredPosition3D.x, 225f - 100f * nowSel, SelectBar.anchoredPosition3D.z);
+            Vector3 smoothedPosition = Vector3.Lerp(SelectBar.anchoredPosition3D, clickPos, smoothSpeed * Time.deltaTime);
+            SelectBar.anchoredPosition3D = smoothedPosition;
         }
     }
 }

@@ -131,6 +131,7 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
+  animation: 1
   clickScale: 1.05
   highlightScale: 1.1
   smoothSpeed: 8
