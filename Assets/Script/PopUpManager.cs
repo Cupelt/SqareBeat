@@ -66,7 +66,7 @@ public class PopUpManager : MonoBehaviour
             cloneBtn.isPopUp = popUpClone;
 
             clone.transform.parent = popUpClone.transform;
-            clone.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0, -170, 0);
+            clone.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0, -130, 0);
             clone.transform.localScale = Vector3.one;
             clone.SetActive(true);
 
@@ -126,22 +126,8 @@ public class PopUpManager : MonoBehaviour
         popUp.StartCoroutine(popUp.closeAnimation());
         for (int i = 0; i < popUp.AnimationList.Count; i++)
         {
-            popUp.AnimationList[i].fade = AppearAnimation.fadeType.fadeOut;
-            popUp.AnimationList[i].movePos *= -1;
             popUp.AnimationList[i].offset -= 0.5f;
-        }
-
-        for (int i = 0; i < popUp.AnimationList.Count; i++)
-        {
-            GameObject child;
-            if (i < 2)
-                child = popUp.transform.GetChild(i + 1).gameObject;
-            else
-                child = popUp.btn[i - 2].gameObject;
-
-            Debug.Log(child);
-
-            Util.CopyComponent(popUp.AnimationList[i], child);
+            popUp.AnimationList[i].onDisable();
         }
     }
 

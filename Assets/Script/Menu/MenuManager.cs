@@ -59,6 +59,9 @@ public class MenuManager : MonoBehaviour
 
         if (Util.CheckMousePos(new Vector3(960f, 470f, 0), new Vector3(325f, 330f, 0)))
         {
+            if (SelectBar.nowSel != 7 - ((int)(mousePos.y - 15) / 100))
+                selectMenuTime = 0;
+
             SelectBar.nowSel = 7 - (int)(mousePos.y - 15) / 100;
         }
 

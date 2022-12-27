@@ -14,7 +14,7 @@ public class AppearAnimation : MonoBehaviour
     public AnimationCurve animaiton;
 
     public fadeType fade;
-    public bool isfadeInOut = true;
+    public bool isFadeInOut = true;
 
     public Image[] img;
     public Text[] text;
@@ -23,6 +23,7 @@ public class AppearAnimation : MonoBehaviour
     public float delay; // 움직이는 시간
 
     public Vector3 movePos; // 움직일 정도
+    private Vector3 originPos;
 
     public bool isDone = true;
 
@@ -53,11 +54,11 @@ public class AppearAnimation : MonoBehaviour
                 text[i].color = fixedColor;
             }
         }
+        originPos = GetComponent<RectTransform>().anchoredPosition3D;
     }
 
     private void OnEnable()
     {
-        GetComponent<RectTransform>().anchoredPosition3D = GetComponent<RectTransform>().anchoredPosition3D - movePos;
         StartCoroutine(Animation(fade, false));
     }
 
@@ -84,7 +85,6 @@ public class AppearAnimation : MonoBehaviour
         float value;
 
         RectTransform trans = gameObject.GetComponent<RectTransform>();
-        Vector3 beforePos = trans.anchoredPosition3D;
 
         float reverse = 1f;
         float min = 0f;
@@ -97,11 +97,9 @@ public class AppearAnimation : MonoBehaviour
         while (time < 1)
         {
             time += Time.deltaTime / delay;
-
-            trans.anchoredPosition3D = beforePos + ((min + animaiton.Evaluate(time) * reverse) * movePos);
-            if (isfadeInOut)
+            trans.anchoredPosition3D = originPos + ((min + animaiton.Evaluate(time) * reverse) * movePos) - (movePos * (reverse + min * 2));
+            if (isFadeInOut)
             {
-
                 for (int i = 0; i < img.Length; i++)
                 {
                     Color color = img[i].color;
@@ -120,6 +118,7 @@ public class AppearAnimation : MonoBehaviour
             yield return null;
         }
         isDone = true;
+        
         if (setDisable)
             gameObject.SetActive(false);
         yield break;

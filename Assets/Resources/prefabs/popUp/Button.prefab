@@ -116,7 +116,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -170}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 260, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6401324885581628114
@@ -194,6 +194,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   fade: 0
+  isFadeInOut: 1
   img:
   - {fileID: 6401324885581628115}
   - {fileID: 6401324886080022490}
@@ -202,7 +203,7 @@ MonoBehaviour:
   offset: 0.65
   delay: 0.5
   movePos: {x: 0, y: 40, z: 0}
-  isDone: 0
+  isDone: 1
 --- !u!114 &6401324885581628125
 MonoBehaviour:
   m_ObjectHideFlags: 0

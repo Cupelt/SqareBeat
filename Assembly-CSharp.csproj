@@ -73,10 +73,11 @@
     <Compile Include="Assets\Script\SongInfo.cs" />
     <Compile Include="Assets\Script\Util.cs" />
     <Compile Include="Assets\Script\PopUpManager.cs" />
+    <Compile Include="Assets\Script\Menu\AppearAniParents.cs" />
     <Compile Include="Assets\Script\MusicSlider.cs" />
     <Compile Include="Assets\Script\Menu\MenuSelectBar.cs" />
     <Compile Include="Assets\Script\Audio\AudioVisualizer.cs" />
-    <Compile Include="Assets\Script\Menu\AppearAniParents.cs" />
+    <Compile Include="Assets\Script\Fixpos.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
