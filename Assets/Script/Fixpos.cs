@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Fixpos : MonoBehaviour
 {
-    Vector3 pos;
+    public Vector3 pos;
 
     // Start is called before the first frame update
-    void OnEnable()
+    void Awake()
     {
         pos = transform.position;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         transform.position = pos;
     }

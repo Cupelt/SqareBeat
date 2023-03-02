@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2208601892827090037}
   - component: {fileID: 2208601892827090039}
   - component: {fileID: 2208601892827090036}
-  - component: {fileID: -3854990486734240454}
+  - component: {fileID: 3110495260104486288}
   m_Layer: 5
   m_Name: bar
   m_TagString: Untagged
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &-3854990486734240454
+--- !u!114 &3110495260104486288
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,7 +85,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2208601892827090042}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 218bd4e16c5c3694f9a543eaa658f8b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 92d2e38a71db38b46967f72b80e416c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bias: 25
@@ -93,7 +93,7 @@ MonoBehaviour:
   timeToBeat: 0.05
   restSmoothTime: 2
   beatColors:
-  - {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 1}
-  - {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 1}
-  - {r: 0.4716981, g: 0.46502313, b: 0.46502313, a: 1}
+  - {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}
+  - {r: 0.30980393, g: 0.30980393, b: 0.30980393, a: 1}
+  - {r: 0.47058824, g: 0.46666667, b: 0.46666667, a: 1}
   restColor: {r: 0.35686275, g: 0.35686275, b: 0.35686275, a: 0.078431375}

@@ -1,210 +1,117 @@
 using System.Collections;
 using System.Collections.Generic;
+using com.cupelt.sqarebeat;
+using com.cupelt.util;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class AudioManager : MonoBehaviour
 {
-    public enum Track { Next = 0, Prev = 1 }
     public enum Cycle { Cycle, Repeat, Random }
+    
+    private static AudioManager instance;
+    public static AudioManager Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+    
+    public AudioSource audio;
+    
+    public BeatMap nowMusic;
+    public List<BeatMap> musicList = new List<BeatMap>();
+    public Stack<BeatMap> musicStack = new Stack<BeatMap>();
 
-    public static bool isPause = false;
-    public static AudioSource audio;
-    public static AudioManager instance;
-    public static Cycle nowCycle = Cycle.Cycle;
-
-    public List<AudioClip> clips;
-    public List<string> artist;
-    public List<string> title;
-
-    public static Stack<MusicInfo> MusicStack = new Stack<MusicInfo>();
-    public static List<MusicInfo> musicList;
-
-    public GameObject PlayBtn;
-    public GameObject PauseBtn;
-
-    public GameObject[] CycleBtns;
-
-    public SimpleButton prevBtn;
-    public Image prevBtnImage;
-
-    public Text TitleFeild;
-
-    public static MusicInfo nowMusic;
+    //option
+    public bool isPause = false;
+    public bool isMusicEnd;
+    public Cycle nowCycle = Cycle.Cycle;
 
     void Awake()
     {
-        audio = GetComponent<AudioSource>();
-
         instance = this;
-
+        audio = GetComponent<AudioSource>();
+        
         LoadMusicList();
         initMusic();
     }
 
     private void Update()
     {
-        LoadMusicList(); //develop
-
         audio = GetComponent<AudioSource>();
-        instance = this; //develop
-
-        PlayBtn.SetActive(isPause);
-        PauseBtn.SetActive(!isPause);
 
         if (isPause)
             audio.Pause();
         else
             audio.UnPause();
-
+        
         if (audio.time >= audio.clip.length - 0.1f)
         {
-            changeTrack((int)Track.Next);
+            isMusicEnd = true;
         }
-
-        TitleFeild.text = nowMusic.Artist + " - " + nowMusic.Title;
     }
 
-    //юсюг
     public void LoadMusicList()
     {
-        musicList = new List<MusicInfo>();
-
-        for (int i = 0; i < clips.Count; i++)
-        {
-            MusicInfo music = new MusicInfo(artist[i], title[i], clips[i]);
-            musicList.Add(music);
-        }
-
+        //@todo load music methods
+        
         musicList.Sort((x, y) => x.Artist.CompareTo(y.Artist));
     }
 
-    public static void initMusic()
+    public void initMusic()
     {
         int track = Random.Range(0, musicList.Count);
-        instance.activePrevTrack(false);
 
         nowMusic = musicList[track];
         audio.clip = nowMusic.Clip;
         audio.Play();
     }
 
-    public static void Pause()
-    {
-        if (isPause)
-            audio.Play();
-        isPause = !isPause;
-    }
-
-    public static void Stop()
-    {
-        audio.Stop();
-        audio.time = 0;
-        isPause = true;
-    }
-
-    public void activePrevTrack(bool active)
-    {
-        prevBtn.active = active;
-        Color color = prevBtnImage.color;
-        if (active)
-        {
-            color.a = 1f;
-        }
-        else
-        {
-            color.a = 0.5f;
-        }
-        prevBtnImage.color = color;
-    }
-
-    public void changeCycle()
-    {
-        int length = System.Enum.GetValues(typeof(Cycle)).Length;
-        if ((int)nowCycle + 1 >= length)
-        {
-            nowCycle = 0;
-        }
-        else
-        {
-            nowCycle = nowCycle + 1;
-        }
-
-        for (int i = 0; i < length; i++)
-        {
-            if (nowCycle.Equals((Cycle)i))
-                CycleBtns[i].SetActive(true);
-            else
-                CycleBtns[i].SetActive(false);
-        }
-    }
-
-    public static void changeTrack(int type)
+    public BeatMap changeTrack(int increase)
     {
         int track = musicList.IndexOf(nowMusic);
-        MusicInfo music;
         if (track == -1)
         {
-            initMusic();
-            return;
+            return musicList[0];
         }
 
-        if (type == 1)
+        if (increase < 0)
         {
-            music = MusicStack.Pop();
-            if (MusicStack.Count == 0)
-            {
-                instance.activePrevTrack(false);
-            }
+            return musicStack.Pop();
         }
-        else
+        
+        switch (nowCycle)
         {
-            instance.activePrevTrack(true);
-            switch (nowCycle)
-            {
-                case Cycle.Cycle:
-                    MusicStack.Push(musicList[track]);
-                    track += 1;
-                    if (track >= musicList.Count)
-                        track = 0;
-                    break;
-                case Cycle.Random:
-                    MusicStack.Push(musicList[track]);
-                    if (musicList.Count > 2)
+            case Cycle.Cycle:
+                musicStack.Push(musicList[track]);
+                track = Util.changeCycleValue(musicList.Count, track, increase);
+                break;
+            case Cycle.Random:
+                musicStack.Push(musicList[track]);
+                if (musicList.Count > 2)
+                {
+                    int rand = track;
+                    while (track == rand)
                     {
-                        int rand = track;
-                        while (track == rand)
-                        {
-                            rand = Random.Range(0, musicList.Count);
-                        }
-                        track = rand;
+                        rand = Random.Range(0, musicList.Count);
                     }
-                    break;
-            }
-            music = musicList[track];
+                    track = rand;
+                }
+                break;
         }
-        setTrack(music);
+        
+        return musicList[track];
     }
 
-    public static void setTrack(MusicInfo music)
+    public void setTrack(BeatMap music)
     {
+        isMusicEnd = false;
         nowMusic = music;
-
         audio.clip = nowMusic.Clip;
         audio.time = 0;
         audio.Play();
-    }
-    public struct MusicInfo
-    {
-        public MusicInfo(string _atrist, string _title, AudioClip _clip)
-        {
-            Artist = _atrist;
-            Title = _title;
-            Clip = _clip;
-        }
-
-        public string Artist { get; }
-        public string Title { get; }
-        public AudioClip Clip { get; }
     }
 }

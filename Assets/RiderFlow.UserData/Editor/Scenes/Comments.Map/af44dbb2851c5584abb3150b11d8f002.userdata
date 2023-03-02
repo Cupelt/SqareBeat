@@ -1,0 +1,14 @@
+{
+  "GlobalObjectId_V1-2-af44dbb2851c5584abb3150b11d8f002-893424585-0": {
+    "GameObjectId": "GlobalObjectId_V1-2-af44dbb2851c5584abb3150b11d8f002-893424585-0",
+    "CommentText": "If this scene end Destroy this",
+    "AssetGUID": "af44dbb2851c5584abb3150b11d8f002",
+    "UniqueItemID": "GlobalObjectId_V1-2-af44dbb2851c5584abb3150b11d8f002-893424585-0"
+  },
+  "GlobalObjectId_V1-2-af44dbb2851c5584abb3150b11d8f002-227748978-0": {
+    "GameObjectId": "GlobalObjectId_V1-2-af44dbb2851c5584abb3150b11d8f002-227748978-0",
+    "CommentText": "DONT DESTROY THIS GROUP",
+    "AssetGUID": "af44dbb2851c5584abb3150b11d8f002",
+    "UniqueItemID": "GlobalObjectId_V1-2-af44dbb2851c5584abb3150b11d8f002-227748978-0"
+  }
+}
