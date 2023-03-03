@@ -6,13 +6,13 @@ using UnityEngine;
 
 public class MenuState
 {
-    protected MenuManager manager;
-    private Guid uuid;
+    protected readonly MenuManager manager;
+    private Guid _uuid;
 
     protected MenuState()
     {
         this.manager = MenuManager.Instance;
-        this.uuid = Guid.NewGuid();
+        this._uuid = Guid.NewGuid();
     }
 
     public virtual IEnumerator resetState() { yield return null; }
@@ -96,7 +96,7 @@ public class SinglePlayer : MenuState
         RectTransform trans = manager.playListObject;
         RectTransform selectBar = manager.menu.selectBar;
 
-        Vector2 fixedSize = new Vector2(OptionManager.Instance.option.width, 80f);
+        Vector2 fixedSize = new Vector2(OptionManager.Instance.option.getResolution().width, 80f);
         
         Vector3 playListPos = trans.anchoredPosition3D;
         Vector3 selectPos = selectBar.anchoredPosition3D;
@@ -157,18 +157,17 @@ public class OptionMenu : MenuState
         manager.optionObject.gameObject.SetActive(true);
 
         RectTransform trans = manager.optionObject;
-        RectTransform selectBar = manager.menu.selectBar;
 
-        Vector2 fixedSize = new Vector2(OptionManager.Instance.option.width, 80f);
+        Vector2 fixedSize = new Vector2(OptionManager.Instance.option.getResolution().width, 80f);
         
         Vector3 optionPos = trans.anchoredPosition3D;
-        Vector3 selectPos = selectBar.anchoredPosition3D;
-        Vector3 selectSizeDelta = selectBar.sizeDelta;
+        Vector3 selectPos = manager.menu.selectBar.anchoredPosition3D;
+        Vector2 selectSizeDelta = manager.menu.selectBar.sizeDelta;
         
         float time = 0;
         while (time < 1)
         {
-            selectBar.sizeDelta = Vector2.Lerp(selectSizeDelta, fixedSize, Tweening.OutQuart(time));
+            manager.menu.selectBar.sizeDelta = Vector2.Lerp(selectSizeDelta, fixedSize, Tweening.OutQuart(time));
             
             time += Time.deltaTime / 0.5f;
             yield return null;
@@ -178,7 +177,7 @@ public class OptionMenu : MenuState
         while (time < 1)
         {
             manager.optionObject.anchoredPosition3D = Util.lerpVector(optionPos, Vector3.zero, Tweening.OutQuart(time));
-            selectBar.anchoredPosition3D = Util.lerpVector(selectPos, Vector3.up * 515f, Tweening.OutQuart(time));
+            manager.menu.selectBar.anchoredPosition3D = Util.lerpVector(selectPos, Vector3.up * 515f, Tweening.OutQuart(time));
 
             time += Time.deltaTime / 0.8f;
             yield return null;
@@ -197,8 +196,8 @@ public class OptionMenu : MenuState
         float time = 0;
         while (time < 1)
         {
-            manager.optionObject.anchoredPosition3D = Util.lerpVector(optionObject, Vector3.up * -1040f, Tweening.OutQuart(time));
-            manager.menu.selectBar.sizeDelta = Util.lerpVector(selectSizeDelta, new Vector2(500f, 80f), Tweening.OutQuart(time));
+            manager.optionObject.anchoredPosition3D = Vector3.Lerp(optionObject, Vector3.up * -1040f, Tweening.OutQuart(time));
+            manager.menu.selectBar.sizeDelta = Vector2.Lerp(selectSizeDelta, new Vector2(500f, 80f), Tweening.OutQuart(time));
             
             time += Time.deltaTime / 0.8f;
             yield return null;

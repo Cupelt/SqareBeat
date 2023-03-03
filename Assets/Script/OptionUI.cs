@@ -14,17 +14,17 @@ public class OptionUI
     }
 
     #region - Header Functions
-    public void AddHeader(string key, bool isSmall = false)
+    public void addHeader(string Key, bool IsSmall = false)
     {
-        ui.Add(new Header(key, isSmall));
+        ui.Add(new Header(Key, IsSmall));
     }
     #endregion
 
     #region - Selection Functions
-    public void AddSelection(string key, bool allowDisable, UnityAction prevFunc, UnityAction nextFunc, string valueName)
+    public void addSelection(string Key, bool AllowDisable, UnityAction PrevFunc, UnityAction NextFunc, string ValueName)
     {
         string[] sel;
-        if (allowDisable) sel = new string[] {
+        if (AllowDisable) sel = new string[] {
             "general.active.disable",
             "general.quality.low",
             "general.quality.middle",
@@ -36,18 +36,18 @@ public class OptionUI
             "general.quality.high",
         };
 
-        AddSelection($"{key}.title", $"{key}.description", sel, prevFunc, nextFunc, valueName);
+        addSelection($"{Key}.title", $"{Key}.description", sel, PrevFunc, NextFunc, ValueName);
     }
 
-    public void AddSelection(string key, string[] selectionKey, UnityAction prevFunc, UnityAction nextFunc, string valueName)
+    public void addSelection(string Key, string[] SelectionKey, UnityAction PrevFunc, UnityAction NextFunc, string ValueName)
     {
-        for (int i = 0; i < selectionKey.Length; i++) selectionKey[i] = $"{key}.selection.{selectionKey[i]}";
-        AddSelection($"{key}.title", $"{key}.description", selectionKey, prevFunc, nextFunc, valueName);
+        for (int i = 0; i < SelectionKey.Length; i++) SelectionKey[i] = $"{Key}.selection.{SelectionKey[i]}";
+        addSelection($"{Key}.title", $"{Key}.description", SelectionKey, PrevFunc, NextFunc, ValueName);
     }
 
-    public void AddSelection(string key, string descriptionKey, string[] selectionKey, UnityAction prevFunc, UnityAction nextFunc, string valueName)
+    public void addSelection(string Key, string DescriptionKey, string[] SelectionKey, UnityAction PrevFunc, UnityAction NextFunc, string ValueName)
     {
-        ui.Add(new SelectionUI(key, descriptionKey, selectionKey, prevFunc, nextFunc, valueName));
+        ui.Add(new SelectionUI(Key, DescriptionKey, SelectionKey, PrevFunc, NextFunc, ValueName));
     }
     #endregion
 
@@ -74,13 +74,13 @@ public class OptionUI
 
     public struct Header : OptionUIStyle
     {
-        public string _key;
-        public bool _isSmall;
+        public string key;
+        public bool isSmall;
 
-        public Header(string key, bool isSmall)
+        public Header(string Key, bool IsSmall)
         {
-            _key = key;
-            _isSmall = isSmall;
+            this.key = Key;
+            this.isSmall = IsSmall;
         }
 
         public UiType getStructType()
@@ -90,8 +90,8 @@ public class OptionUI
     }
     public struct SelectionUI : OptionUIStyle
     {
-        public string _key;
-        public string _descriptionKey;
+        public string key;
+        public string descriptionKey;
 
         public string[] selectionKeys;
 
@@ -100,17 +100,17 @@ public class OptionUI
 
         public string value;
 
-        public SelectionUI(string key, string descriptionKey, string[] selectionKey, UnityAction prevFunc, UnityAction nextFunc, string valueName)
+        public SelectionUI(string Key, string DescriptionKey, string[] SelectionKey, UnityAction PrevFunc, UnityAction NextFunc, string ValueName)
         {
-            _key = key;
-            _descriptionKey = descriptionKey;
+            this.key = Key;
+            this.descriptionKey = DescriptionKey;
 
-            selectionKeys = selectionKey;
+            selectionKeys = SelectionKey;
 
-            prev = prevFunc;
-            next = nextFunc;
+            prev = PrevFunc;
+            next = NextFunc;
 
-            value = valueName;
+            value = ValueName;
     }
 
         public UiType getStructType()
@@ -120,21 +120,21 @@ public class OptionUI
     }
     public struct ToggleUI : OptionUIStyle
     {
-        public string _key;
-        public string _descriptionKey;
+        public string key;
+        public string descriptionKey;
 
-        public UnityAction<bool> _setActiveFunc;
+        public UnityAction<bool> setActiveFunc;
 
         public string value;
 
-        public ToggleUI(string key, string descriptionKey, UnityAction<bool> setActiveFunc, string valueName)
+        public ToggleUI(string Key, string DescriptionKey, UnityAction<bool> SetActiveFunc, string ValueName)
         {
-            _key = key;
-            _descriptionKey = descriptionKey;
+            this.key = Key;
+            this.descriptionKey = DescriptionKey;
 
-            _setActiveFunc = setActiveFunc;
+            this.setActiveFunc = SetActiveFunc;
 
-            value = valueName;
+            value = ValueName;
         }
 
         public UiType getStructType()
@@ -145,12 +145,12 @@ public class OptionUI
     public struct ButtonUI : OptionUIStyle
     {
 
-        public ButtonObject[] _buttons;
+        public ButtonObject[] buttons;
 
-        public ButtonUI(ButtonObject[] buttons)
+        public ButtonUI(ButtonObject[] Buttons)
         {
 
-            _buttons = buttons;
+            this.buttons = Buttons;
         }
 
         public UiType getStructType()
@@ -163,10 +163,10 @@ public class OptionUI
             public UnityAction action;
             public string text;
 
-            public ButtonObject(string _text, UnityAction _action)
+            public ButtonObject(string Text, UnityAction Action)
             {
-                text = _text;
-                action = _action;
+                text = Text;
+                action = Action;
             }
         }
     }

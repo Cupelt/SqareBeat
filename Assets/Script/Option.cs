@@ -8,17 +8,17 @@ using UnityEngine.Rendering.PostProcessing;
 namespace com.cupelt.option
 {
     //Language Option -
-    public enum languageEnum        { en_us }
+    public enum LanguageEnum        { en_us }
 
     //Graphic Option -
     //Diaply Option
-    public enum displayModeEnum     { fullScreen, windowd, borderlessWindowed }
-    public enum displayFrameEnum    { Synchronization, Unlimited, Custom }
+    public enum DisplayModeEnum     { FullScreen, Windowd, BorderlessWindowed }
+    public enum DisplayFrameEnum    { Synchronization, Unlimited, Custom }
 
     //Graphic Option
-    public enum presetQualityEnum   { Low, Middle, high, Custom } // ?
+    public enum PresetQualityEnum   { Low, Middle, High, Custom } // ?
 
-    public enum TextureQualityEnum  { Low, Middle, high }
+    public enum TextureQualityEnum  { Low, Middle, High }
     public enum AntiAliasingEnum    { Disable, MSAA, FXAA, SMAA }
     public enum BloomEnum           { Disable, Low, Middle, High }
     //Other Setting
@@ -26,17 +26,17 @@ namespace com.cupelt.option
     [System.Serializable]
     public class Option
     {
-        public languageEnum lang = languageEnum.en_us;
+        public LanguageEnum lang = LanguageEnum.en_us;
 
-        public displayModeEnum displayMode = displayModeEnum.fullScreen;
-        public displayFrameEnum displayFrame = displayFrameEnum.Synchronization;
+        public DisplayModeEnum displayMode = DisplayModeEnum.FullScreen;
+        public DisplayFrameEnum displayFrame = DisplayFrameEnum.Synchronization;
         public int resolution = 0;
-        public int width;
-        public int height;
+        private int _width;
+        private int _height;
         public int maxFrameRate = -1;
         public bool vsync = false;
 
-        public TextureQualityEnum textureQuality = TextureQualityEnum.high;
+        public TextureQualityEnum textureQuality = TextureQualityEnum.High;
         public AntiAliasingEnum antiAliasing = AntiAliasingEnum.FXAA;
         public BloomEnum bloom = BloomEnum.Middle;
 
@@ -50,11 +50,24 @@ namespace com.cupelt.option
             File.WriteAllText(path, json);
         }
 
+        public Resolution getResolution()
+        {
+            if (_width.Equals(0) || _height.Equals(0))
+                return Screen.currentResolution;
+            else
+                return new Resolution
+                {
+                    width = _width,
+                    height = _height,
+                    refreshRate = Screen.currentResolution.refreshRate
+                };
+        }
+
         public static Option load()
         {
             string path = Application.persistentDataPath + "/Option.json";
             
-            if (File.Exists(path))
+            if (!File.Exists(path))
             {
                 new Option().save();
             }
@@ -67,7 +80,7 @@ namespace com.cupelt.option
             Resolution[] resolutions = Util.getFixedResolutions();
 
             for (int res = 0; res < resolutions.Length; res++)
-                if (o.width.Equals(resolutions[res].width) && o.height.Equals(resolutions[res].height))
+                if (o._width.Equals(resolutions[res].width) && o._height.Equals(resolutions[res].height))
                 {
                     o.resolution = res;
                     break;
@@ -81,12 +94,12 @@ namespace com.cupelt.option
             Resolution[] resolutions = Util.getFixedResolutions();
             switch (displayMode)
             {
-                case displayModeEnum.fullScreen: Screen.SetResolution(resolutions[resolution].width, resolutions[resolution].height, FullScreenMode.ExclusiveFullScreen); break;
-                case displayModeEnum.windowd: Screen.SetResolution(resolutions[resolution].width, resolutions[resolution].height, FullScreenMode.Windowed); break;
-                case displayModeEnum.borderlessWindowed: Screen.SetResolution(resolutions[resolution].width, resolutions[resolution].height, FullScreenMode.FullScreenWindow); break;
+                case DisplayModeEnum.FullScreen: Screen.SetResolution(resolutions[resolution].width, resolutions[resolution].height, FullScreenMode.ExclusiveFullScreen); break;
+                case DisplayModeEnum.Windowd: Screen.SetResolution(resolutions[resolution].width, resolutions[resolution].height, FullScreenMode.Windowed); break;
+                case DisplayModeEnum.BorderlessWindowed: Screen.SetResolution(resolutions[resolution].width, resolutions[resolution].height, FullScreenMode.FullScreenWindow); break;
             }
-            width = resolutions[resolution].width;
-            height = resolutions[resolution].height;
+            _width = resolutions[resolution].width;
+            _height = resolutions[resolution].height;
             save();
         }
 
@@ -107,15 +120,15 @@ namespace com.cupelt.option
 
             switch (displayFrame)
             {
-                case displayFrameEnum.Synchronization: Application.targetFrameRate = Screen.currentResolution.refreshRate; break;
-                case displayFrameEnum.Unlimited: Application.targetFrameRate = 3000; break;
-                case displayFrameEnum.Custom: Application.targetFrameRate = maxFrameRate; break;
+                case DisplayFrameEnum.Synchronization: Application.targetFrameRate = Screen.currentResolution.refreshRate; break;
+                case DisplayFrameEnum.Unlimited: Application.targetFrameRate = 3000; break;
+                case DisplayFrameEnum.Custom: Application.targetFrameRate = maxFrameRate; break;
             }
 
             //Graphic
             switch (textureQuality)
             {
-                case TextureQualityEnum.high: QualitySettings.masterTextureLimit = 0; break;
+                case TextureQualityEnum.High: QualitySettings.masterTextureLimit = 0; break;
                 case TextureQualityEnum.Middle: QualitySettings.masterTextureLimit = 1; break;
                 case TextureQualityEnum.Low: QualitySettings.masterTextureLimit = 2; break;
             }

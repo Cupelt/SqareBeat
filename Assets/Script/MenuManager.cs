@@ -8,12 +8,12 @@ using UnityEngine.EventSystems;
 
 public class MenuManager : MonoBehaviour
 {
-    private static MenuManager instance;
+    private static MenuManager _instance;
     public static MenuManager Instance
     {
         get
         {
-            return instance;
+            return _instance;
         }
     }
 
@@ -24,18 +24,19 @@ public class MenuManager : MonoBehaviour
     public RectTransform optionObject;
     public RectTransform playListObject;
 
-    public Stack<MenuState> nowState = new Stack<MenuState>();
-    public List<MenuState> readyQueue = new List<MenuState>();
-    private bool readyNextAnimation = true;
+    public readonly Stack<MenuState> nowState = new Stack<MenuState>();
+    public readonly List<MenuState> readyQueue = new List<MenuState>();
+    private bool _readyNextAnimation = true;
 
     private void Awake()
+    
     {
-        instance = this;
+        _instance = this;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && readyNextAnimation && nowState.Count != 0 && icon.readyActive)
+        if (Input.GetKeyDown(KeyCode.Escape) && _readyNextAnimation && nowState.Count != 0 && icon.readyActive)
         {
             removeState();
             if (nowState.Count == 0)
@@ -45,7 +46,7 @@ public class MenuManager : MonoBehaviour
             }
         }
 
-        readyNextAnimation = (readyQueue.Count == 0);
+        _readyNextAnimation = (readyQueue.Count == 0);
     }
 
     #region - preset Func -
@@ -56,15 +57,15 @@ public class MenuManager : MonoBehaviour
 
     #endregion
 
-    public void addState(MenuState state)
+    public void addState(MenuState State)
     {
-        if (readyNextAnimation && icon.readyActive)
+        if (_readyNextAnimation && icon.readyActive)
         {
             if (nowState.Count == 0) icon.setActive(false);
             else StartCoroutine(nowState.Peek().resetState());
             
-            nowState.Push(state);
-            StartCoroutine(state.initState());
+            nowState.Push(State);
+            StartCoroutine(State.initState());
         }
     }
     

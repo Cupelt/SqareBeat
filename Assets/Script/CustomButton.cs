@@ -22,7 +22,7 @@ public class CustomButton : CheckMouseCursor, IPointerClickHandler
     public ColorObjects colorObjects;
     public UnityEvent onClick;
 
-    public void OnPointerClick(PointerEventData pointerEventData)
+    public void OnPointerClick(PointerEventData PointerEventData)
     {
         if (!getActive()) return;
         

@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class OptionUIBuilder : MonoBehaviour
 {
-    private Option option => GetComponent<OptionManager>().option;
+    private Option Option => GetComponent<OptionManager>().option;
 
-    private OptionManager manager => GetComponent<OptionManager>();
+    private OptionManager Manager => GetComponent<OptionManager>();
 
     public OptionUI createOptionUI()
     {
@@ -16,30 +16,30 @@ public class OptionUIBuilder : MonoBehaviour
 
         string optionStr = "option.language_option";
 
-        ui.AddHeader($"{optionStr}.title");
-        ui.AddSelection("option.language_option.language",
+        ui.addHeader($"{optionStr}.title");
+        ui.addSelection("option.language_option.language",
             new string[] {
                 "en_us",
                 "ko_kr"
             },
-            () => { option.lang = (languageEnum)Util.changeEnum(typeof(languageEnum), (int)option.lang, -1); },
-            () => { option.lang = (languageEnum)Util.changeEnum(typeof(languageEnum), (int)option.lang, 1); },
-            nameof(option.lang));
+            () => { Option.lang = (LanguageEnum)Util.changeEnum(typeof(LanguageEnum), (int)Option.lang, -1); },
+            () => { Option.lang = (LanguageEnum)Util.changeEnum(typeof(LanguageEnum), (int)Option.lang, 1); },
+            nameof(Option.lang));
 
         optionStr = "option.video_option";
-        ui.AddHeader($"{optionStr}.title");
-        ui.AddHeader($"{optionStr}.display_option.title", true);
+        ui.addHeader($"{optionStr}.title");
+        ui.addHeader($"{optionStr}.display_option.title", true);
 
         optionStr = "option.video_option.display_option";
-        ui.AddSelection($"{optionStr}.display_mode",
+        ui.addSelection($"{optionStr}.display_mode",
             new string[] {
                 "full_screen",
                 "windowd",
                 "borderless_windowed"
             },
-            () => { option.displayMode = (displayModeEnum)Util.changeEnum(typeof(displayModeEnum), (int)option.displayMode, -1); },
-            () => { option.displayMode = (displayModeEnum)Util.changeEnum(typeof(displayModeEnum), (int)option.displayMode, 1); },
-            nameof(option.displayMode));
+            () => { Option.displayMode = (DisplayModeEnum)Util.changeEnum(typeof(DisplayModeEnum), (int)Option.displayMode, -1); },
+            () => { Option.displayMode = (DisplayModeEnum)Util.changeEnum(typeof(DisplayModeEnum), (int)Option.displayMode, 1); },
+            nameof(Option.displayMode));
 
         Resolution[] fixedResolution = Util.getFixedResolutions();
         string[] resolutionRatio = new string[fixedResolution.Length];
@@ -48,33 +48,33 @@ public class OptionUIBuilder : MonoBehaviour
             int[] ratio = Util.getResolutionRatio(fixedResolution[i].width, fixedResolution[i].height);
             resolutionRatio[i] = $"{fixedResolution[i].width} X {fixedResolution[i].height} ( {ratio[0]} : {ratio[1]} )";
         }
-        ui.AddSelection($"{optionStr}.resolution.title",
+        ui.addSelection($"{optionStr}.resolution.title",
             $"{optionStr}.resolution.description",
             resolutionRatio,
-            () => { option.resolution = Util.changeCycleValue(resolutionRatio.Length, (int)option.resolution, -1); },
-            () => { option.resolution = Util.changeCycleValue(resolutionRatio.Length, (int)option.resolution, 1); },
-            nameof(option.resolution));
-        ui.AddSelection($"{optionStr}.display_frame",
+            () => { Option.resolution = Util.changeCycleValue(resolutionRatio.Length, (int)Option.resolution, -1); },
+            () => { Option.resolution = Util.changeCycleValue(resolutionRatio.Length, (int)Option.resolution, 1); },
+            nameof(Option.resolution));
+        ui.addSelection($"{optionStr}.display_frame",
             new string[] {
                 "synchronization",
                 "unlimited",
                 "custom"
             },
-            () => { option.displayFrame = (displayFrameEnum)Util.changeEnum(typeof(displayFrameEnum), (int)option.displayFrame, -1); },
-            () => { option.displayFrame = (displayFrameEnum)Util.changeEnum(typeof(displayFrameEnum), (int)option.displayFrame, 1); },
-            nameof(option.displayFrame));
+            () => { Option.displayFrame = (DisplayFrameEnum)Util.changeEnum(typeof(DisplayFrameEnum), (int)Option.displayFrame, -1); },
+            () => { Option.displayFrame = (DisplayFrameEnum)Util.changeEnum(typeof(DisplayFrameEnum), (int)Option.displayFrame, 1); },
+            nameof(Option.displayFrame));
         ui.AddToggle($"{optionStr}.v_sync",
-            (active) => { option.vsync = active; },
-            nameof(option.vsync));
-        ui.AddButton(new OptionUI.ButtonUI.ButtonObject[] { new OptionUI.ButtonUI.ButtonObject($"{optionStr}.apply", () => { option.applyResolution(); }) });
+            (Active) => { Option.vsync = Active; },
+            nameof(Option.vsync));
+        ui.AddButton(new OptionUI.ButtonUI.ButtonObject[] { new OptionUI.ButtonUI.ButtonObject($"{optionStr}.apply", () => { Option.applyResolution(); }) });
 
         optionStr = "option.video_option.graphic_option";
-        ui.AddHeader($"{optionStr}.title", true);
-        ui.AddSelection($"{optionStr}.texture_quality", false,
-            () => { option.textureQuality = (TextureQualityEnum)Util.changeEnum(typeof(TextureQualityEnum), (int)option.textureQuality, -1); },
-            () => { option.textureQuality = (TextureQualityEnum)Util.changeEnum(typeof(TextureQualityEnum), (int)option.textureQuality, 1); },
-            nameof(option.textureQuality));
-        ui.AddSelection($"{optionStr}.anti_aliasing.title",
+        ui.addHeader($"{optionStr}.title", true);
+        ui.addSelection($"{optionStr}.texture_quality", false,
+            () => { Option.textureQuality = (TextureQualityEnum)Util.changeEnum(typeof(TextureQualityEnum), (int)Option.textureQuality, -1); },
+            () => { Option.textureQuality = (TextureQualityEnum)Util.changeEnum(typeof(TextureQualityEnum), (int)Option.textureQuality, 1); },
+            nameof(Option.textureQuality));
+        ui.addSelection($"{optionStr}.anti_aliasing.title",
             $"{optionStr}.anti_aliasing.description",
             new string[] {
                 "general.active.disable",
@@ -82,40 +82,40 @@ public class OptionUIBuilder : MonoBehaviour
                 "FXAA",
                 "SMAA"
             },
-            () => { option.antiAliasing = (AntiAliasingEnum)Util.changeEnum(typeof(AntiAliasingEnum), (int)option.antiAliasing, -1); },
-            () => { option.antiAliasing = (AntiAliasingEnum)Util.changeEnum(typeof(AntiAliasingEnum), (int)option.antiAliasing, 1); },
-            nameof(option.antiAliasing));
-        ui.AddSelection($"{optionStr}.bloom", true,
-            () => { option.bloom = (BloomEnum)Util.changeEnum(typeof(BloomEnum), (int)option.bloom, -1); },
-            () => { option.bloom = (BloomEnum)Util.changeEnum(typeof(BloomEnum), (int)option.bloom, 1); },
-            nameof(option.bloom));
+            () => { Option.antiAliasing = (AntiAliasingEnum)Util.changeEnum(typeof(AntiAliasingEnum), (int)Option.antiAliasing, -1); },
+            () => { Option.antiAliasing = (AntiAliasingEnum)Util.changeEnum(typeof(AntiAliasingEnum), (int)Option.antiAliasing, 1); },
+            nameof(Option.antiAliasing));
+        ui.addSelection($"{optionStr}.bloom", true,
+            () => { Option.bloom = (BloomEnum)Util.changeEnum(typeof(BloomEnum), (int)Option.bloom, -1); },
+            () => { Option.bloom = (BloomEnum)Util.changeEnum(typeof(BloomEnum), (int)Option.bloom, 1); },
+            nameof(Option.bloom));
 
         optionStr = "option.other_option";
-        ui.AddHeader($"{optionStr}.title");
+        ui.addHeader($"{optionStr}.title");
         ui.AddToggle($"{optionStr}.show_frame",
-            (active) => { option.isShowFrameRate = active; },
-            nameof(option.isShowFrameRate));
+            (active) => { Option.isShowFrameRate = active; },
+            nameof(Option.isShowFrameRate));
         ui.AddToggle($"{optionStr}.show_time",
-            (active) => { option.isShowTime = active; },
-            nameof(option.isShowTime));
+            (active) => { Option.isShowTime = active; },
+            nameof(Option.isShowTime));
 
         return ui;
     }
     
-    public void DrawOptionUI(OptionUI ui)
+    public void drawOptionUI(OptionUI UI)
     {
         Vector3 totalPos = Vector3.up * (450f + 50f);
 
         OptionUI.UiType beforeType = OptionUI.UiType.Header;
 
         
-        Transform optionParents = manager.parents;
+        Transform optionParents = Manager.parents;
         GameObject optionHead = Resources.Load<GameObject>("prefabs/ui/option/Text Head");
         GameObject optionSubHead = Resources.Load<GameObject>("prefabs/ui/option/Text SubHead");
         GameObject optionToggleUI = Resources.Load<GameObject>("prefabs/ui/toggle/Toggle");
         GameObject optionButtonUI = Resources.Load<GameObject>("prefabs/ui/button/Button");
 
-        foreach (OptionUI.OptionUIStyle uiStyle in ui.ui)
+        foreach (OptionUI.OptionUIStyle uiStyle in UI.ui)
         {
             float defaultGap = 105f;
             switch (beforeType)
@@ -132,13 +132,13 @@ public class OptionUIBuilder : MonoBehaviour
                     OptionUI.Header uiHead = (OptionUI.Header)uiStyle;
                     GameObject head;
 
-                    if (defaultGap == 115f) totalPos.y -= 50;
+                    if (defaultGap.Equals(115f)) totalPos.y -= 50;
 
-                    if (!uiHead._isSmall)   {   head = Instantiate(optionHead, optionParents);      }
+                    if (!uiHead.isSmall)   {   head = Instantiate(optionHead, optionParents);      }
                     else                    {   head = Instantiate(optionSubHead, optionParents);   }
 
                     head.GetComponent<RectTransform>().anchoredPosition3D = totalPos;
-                    head.GetComponent<LocaleString>().setKey(uiHead._key);
+                    head.GetComponent<LocaleString>().setKey(uiHead.key);
 
                     head.SetActive(true);
                     break;
@@ -148,14 +148,14 @@ public class OptionUIBuilder : MonoBehaviour
                     GameObject selection = CustomSelection.buildSelection(
                         optionParents,
                         totalPos,
-                        uiSelection._key,
-                        option.GetType(),
-                        option,
+                        uiSelection.key,
+                        Option.GetType(),
+                        Option,
                         uiSelection.value,
                         uiSelection.selectionKeys,
                         uiSelection.prev,
                         uiSelection.next,
-                        () => option.applyOption());
+                        () => Option.applyOption());
                     selection.SetActive(true);
                     break;
                 case OptionUI.UiType.Toggle:
@@ -163,29 +163,29 @@ public class OptionUIBuilder : MonoBehaviour
                     GameObject toggle = Instantiate(optionToggleUI, optionParents);
 
                     toggle.GetComponent<RectTransform>().anchoredPosition3D = totalPos;
-                    toggle.GetComponent<LocaleString>().setKey(uiToggle._key);
+                    toggle.GetComponent<LocaleString>().setKey(uiToggle.key);
 
                     //description add
 
                     CustomToggleButton btn = toggle.transform.GetChild(1).GetComponent<CustomToggleButton>();
-                    btn.toggleActive = (bool)option.GetType().GetField(uiToggle.value).GetValue(option);
+                    btn.toggleActive = (bool)Option.GetType().GetField(uiToggle.value).GetValue(Option);
 
-                    btn.onValueChanged.AddListener(uiToggle._setActiveFunc);
-                    btn.onValueChanged.AddListener((x) => option.applyOption());
+                    btn.onValueChanged.AddListener(uiToggle.setActiveFunc);
+                    btn.onValueChanged.AddListener((X) => Option.applyOption());
 
                     toggle.SetActive(true);
                     break;
                 case OptionUI.UiType.Button:
                     OptionUI.ButtonUI uiButton = (OptionUI.ButtonUI)uiStyle;
 
-                    for (int i = 0; i < uiButton._buttons.Length; i++)
+                    for (int i = 0; i < uiButton.buttons.Length; i++)
                     {
                         GameObject button = Instantiate(optionButtonUI, optionParents);
                         Vector3 pos = totalPos;
                         pos.x = i * 160f;
                         button.GetComponent<RectTransform>().anchoredPosition3D = pos;
-                        button.GetComponent<CustomButton>().onClick.AddListener(uiButton._buttons[i].action);
-                        button.transform.GetChild(0).GetChild(0).GetComponent<LocaleString>().setKey(uiButton._buttons[i].text);
+                        button.GetComponent<CustomButton>().onClick.AddListener(uiButton.buttons[i].action);
+                        button.transform.GetChild(0).GetChild(0).GetComponent<LocaleString>().setKey(uiButton.buttons[i].text);
 
                         button.SetActive(true);
                     }
@@ -194,6 +194,6 @@ public class OptionUIBuilder : MonoBehaviour
             beforeType = uiStyle.getStructType();
         }
 
-        manager.optionLength = totalPos.y + 250;
+        Manager.optionLength = totalPos.y + 250;
     }
 }

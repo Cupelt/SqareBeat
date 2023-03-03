@@ -28,6 +28,6 @@ public class OptionManager : MonoBehaviour
         OptionUIBuilder builder = GetComponent<OptionUIBuilder>();
 
         option.applyOption();
-        builder.DrawOptionUI(builder.createOptionUI());
+        builder.drawOptionUI(builder.createOptionUI());
     }
 }

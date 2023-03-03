@@ -18,38 +18,38 @@ public class CustomSelection : MonoBehaviour
     [HideInInspector] public int selected = -1;
     [HideInInspector] public string value = "";
     
-    private Type syncType;
-    private object valueObject;
-    private bool movingTextActive = false;
+    private Type _syncType;
+    private object _valueObject;
+    private bool _movingTextActive = false;
     
     void Update()
     {
         if (syncValue)
         {
-            selected = (int)syncType.GetField(value).GetValue(valueObject);
+            selected = (int)_syncType.GetField(value).GetValue(_valueObject);
         }
 
         mask.anchoredPosition3D = Vector3.right * Mathf.Lerp(mask.anchoredPosition3D.x, selected * -520f, Time.deltaTime * 8f);
     }
 
-    public static GameObject buildSelection(Transform parent, Vector3 pos, string localeKey, Type valueType, object valueObject, string value, string[] contents, UnityAction prev, UnityAction next, UnityAction commonFunc = null)
+    public static GameObject buildSelection(Transform Parent, Vector3 Pos, string LocaleKey, Type ValueType, object ValueObject, string Value, string[] Contents, UnityAction Prev, UnityAction Next, UnityAction CommonFunc = null)
     {
         GameObject uiSelectionPrefab = Resources.Load<GameObject>("prefabs/ui/selection/selectionPrefab");
         GameObject contentPrefab = Resources.Load<GameObject>("prefabs/ui/selection/selectionContentPrefab");
-        GameObject selection = Instantiate(uiSelectionPrefab, parent);
+        GameObject selection = Instantiate(uiSelectionPrefab, Parent);
 
-        selection.GetComponent<RectTransform>().anchoredPosition3D = pos;
-        selection.GetComponent<LocaleString>().setKey(localeKey);
-        selection.GetComponent<CustomSelection>().value = value;
-        selection.GetComponent<CustomSelection>().syncType = valueType;
-        selection.GetComponent<CustomSelection>().valueObject = valueObject;
+        selection.GetComponent<RectTransform>().anchoredPosition3D = Pos;
+        selection.GetComponent<LocaleString>().setKey(LocaleKey);
+        selection.GetComponent<CustomSelection>().value = Value;
+        selection.GetComponent<CustomSelection>()._syncType = ValueType;
+        selection.GetComponent<CustomSelection>()._valueObject = ValueObject;
 
         //description add
 
         Transform container = selection.transform.GetChild(0);
         Transform selectList = container.GetChild(0).GetChild(0);
         int count = 0;
-        foreach (string selKey in contents)
+        foreach (string selKey in Contents)
         {
             RectTransform selectionText = Instantiate(contentPrefab, selectList).GetComponent<RectTransform>();
             selectionText.anchoredPosition3D = Vector3.right * 520 * count;
@@ -62,10 +62,10 @@ public class CustomSelection : MonoBehaviour
         {
             UnityEvent func = container.GetChild(i).GetComponent<CustomButton>().onClick;
 
-            if (i == 1) func.AddListener(prev);
-            if (i == 2) func.AddListener(next);
+            if (i == 1) func.AddListener(Prev);
+            if (i == 2) func.AddListener(Next);
             
-            if (commonFunc != null) func.AddListener(commonFunc);
+            if (CommonFunc != null) func.AddListener(CommonFunc);
         }
 
         return selection;
