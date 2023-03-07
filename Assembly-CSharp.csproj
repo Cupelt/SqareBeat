@@ -99,6 +99,7 @@
      <Compile Include="Assets\Script\MotionBlur.cs" />
      <Compile Include="Assets\Script\Option.cs" />
      <Compile Include="Assets\Script\AudioSyncer.cs" />
+     <Compile Include="Assets\Localization\SyncText.cs" />
      <None Include="Assets\shader\SpriteGradient.shader" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.30f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

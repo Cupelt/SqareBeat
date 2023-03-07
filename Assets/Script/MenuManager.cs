@@ -71,22 +71,22 @@ public class MenuManager : MonoBehaviour
                 audioManager.setTrack(audioManager.getTrackbyNowBeatMap(1));
                 _keyCool = 0f;
             }
-
+            
             if (MusicSelector.nowSel.GetComponent<RectTransform>().anchoredPosition3D.y > top && _keyCool < 1f && 
                 0 < mapsScrollRect.content.anchoredPosition3D.y)
             {
                 Vector3 anchoredPosition3D = mapsScrollRect.content.anchoredPosition3D;
                 Vector3 fixedPos = anchoredPosition3D;
-                fixedPos.y -= 10f;
-                mapsScrollRect.content.anchoredPosition3D = Vector3.Lerp(fixedPos, anchoredPosition3D, Time.deltaTime * 8f);
+                fixedPos.y = -1 * (MusicSelector.nowSel.GetComponent<RectTransform>().anchoredPosition3D.y + 150);
+                mapsScrollRect.content.anchoredPosition3D = Vector3.Lerp(anchoredPosition3D, fixedPos, Time.deltaTime * 8f);
             } 
             else if (MusicSelector.nowSel.GetComponent<RectTransform>().anchoredPosition3D.y < bottom && _keyCool < 1f && 
                      mapsScrollRect.content.rect.height - mapsScrollRect.viewport.rect.height > mapsScrollRect.content.anchoredPosition3D.y)
             {
                 Vector3 anchoredPosition3D = mapsScrollRect.content.anchoredPosition3D;
                 Vector3 fixedPos = anchoredPosition3D;
-                fixedPos.y += 10f;
-                mapsScrollRect.content.anchoredPosition3D = Vector3.Lerp(fixedPos, anchoredPosition3D, Time.deltaTime * 8f);
+                fixedPos.y = -1 * (MusicSelector.nowSel.GetComponent<RectTransform>().anchoredPosition3D.y + mapsScrollRect.viewport.rect.height - 150);
+                mapsScrollRect.content.anchoredPosition3D = Vector3.Lerp(anchoredPosition3D, fixedPos, Time.deltaTime * 8f);
             }
         }
 
