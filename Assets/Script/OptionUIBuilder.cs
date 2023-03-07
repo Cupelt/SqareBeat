@@ -104,7 +104,7 @@ public class OptionUIBuilder : MonoBehaviour
     
     public void drawOptionUI(OptionUI UI)
     {
-        Vector3 totalPos = Vector3.up * (450f + 50f);
+        Vector3 totalPos = Vector3.up * -65f;
 
         OptionUI.UiType beforeType = OptionUI.UiType.Header;
 
@@ -194,6 +194,6 @@ public class OptionUIBuilder : MonoBehaviour
             beforeType = uiStyle.getStructType();
         }
 
-        Manager.optionLength = totalPos.y + 250;
+        optionParents.GetComponent<RectTransform>().sizeDelta = new Vector2(0, -totalPos.y + 250);
     }
 }

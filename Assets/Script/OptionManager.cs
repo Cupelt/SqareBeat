@@ -15,8 +15,6 @@ public class OptionManager : MonoBehaviour
     public static OptionManager Instance => instance;
     public Option option;
 
-    public float optionLength;
-
     //Other Value
     private float fps = 60f;
 

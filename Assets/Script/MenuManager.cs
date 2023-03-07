@@ -5,6 +5,8 @@ using com.cupelt.util;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class MenuManager : MonoBehaviour
 {
@@ -24,9 +26,13 @@ public class MenuManager : MonoBehaviour
     public RectTransform optionObject;
     public RectTransform playListObject;
 
+    public ScrollRect mapsScrollRect;
+
     public readonly Stack<MenuState> nowState = new Stack<MenuState>();
     public readonly List<MenuState> readyQueue = new List<MenuState>();
     private bool _readyNextAnimation = true;
+
+    private float _keyCool = 0;
 
     private void Awake()
     
@@ -46,6 +52,44 @@ public class MenuManager : MonoBehaviour
             }
         }
 
+        if (nowState.Count > 0 && nowState.Peek() is SinglePlayer)
+        {
+            _keyCool += Time.deltaTime;
+            
+            AudioManager audioManager = AudioManager.Instance;
+            
+            Vector3 scrollPos = mapsScrollRect.content.anchoredPosition3D;
+            float top = -scrollPos.y - 150f;
+            float bottom = -scrollPos.y - mapsScrollRect.viewport.rect.height + 150;
+            if (Input.GetKeyDown(KeyCode.UpArrow) || (Input.GetKey(KeyCode.UpArrow) && _keyCool > 0.1f))
+            {
+                audioManager.setTrack(audioManager.getTrackbyNowBeatMap(-1));
+                _keyCool = 0f;
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow) || (Input.GetKey(KeyCode.DownArrow) && _keyCool > 0.1f))
+            {
+                audioManager.setTrack(audioManager.getTrackbyNowBeatMap(1));
+                _keyCool = 0f;
+            }
+
+            if (MusicSelector.nowSel.GetComponent<RectTransform>().anchoredPosition3D.y > top && _keyCool < 1f && 
+                0 < mapsScrollRect.content.anchoredPosition3D.y)
+            {
+                Vector3 anchoredPosition3D = mapsScrollRect.content.anchoredPosition3D;
+                Vector3 fixedPos = anchoredPosition3D;
+                fixedPos.y -= 10f;
+                mapsScrollRect.content.anchoredPosition3D = Vector3.Lerp(fixedPos, anchoredPosition3D, Time.deltaTime * 8f);
+            } 
+            else if (MusicSelector.nowSel.GetComponent<RectTransform>().anchoredPosition3D.y < bottom && _keyCool < 1f && 
+                     mapsScrollRect.content.rect.height - mapsScrollRect.viewport.rect.height > mapsScrollRect.content.anchoredPosition3D.y)
+            {
+                Vector3 anchoredPosition3D = mapsScrollRect.content.anchoredPosition3D;
+                Vector3 fixedPos = anchoredPosition3D;
+                fixedPos.y += 10f;
+                mapsScrollRect.content.anchoredPosition3D = Vector3.Lerp(fixedPos, anchoredPosition3D, Time.deltaTime * 8f);
+            }
+        }
+
         _readyNextAnimation = (readyQueue.Count == 0);
     }
 
@@ -57,15 +101,15 @@ public class MenuManager : MonoBehaviour
 
     #endregion
 
-    public void addState(MenuState State)
+    public void addState(MenuState state)
     {
         if (_readyNextAnimation && icon.readyActive)
         {
             if (nowState.Count == 0) icon.setActive(false);
             else StartCoroutine(nowState.Peek().resetState());
             
-            nowState.Push(State);
-            StartCoroutine(State.initState());
+            nowState.Push(state);
+            StartCoroutine(state.initState());
         }
     }
     

@@ -42,6 +42,7 @@ public class AudioManager : MonoBehaviour
     private void Update()
     {
         audio = GetComponent<AudioSource>();
+        
 
         if (isPause)
             audio.Pause();
@@ -70,26 +71,63 @@ public class AudioManager : MonoBehaviour
         audio.Play();
     }
 
-    public BeatMap changeTrack(int increase)
+    public BeatMap getTrackbyNowBeatMap(int increase)
     {
         int track = musicList.IndexOf(nowMusic);
         if (track == -1)
         {
             return musicList[0];
         }
+        
+        track = Util.changeCycleValue(musicList.Count, track, increase);
 
-        if (increase < 0)
-        {
-            return musicStack.Pop();
-        }
+        return musicList[track];
+    }
+
+    public BeatMap nextTrack()
+    {
+        BeatMap music = nowMusic;
         
         switch (nowCycle)
         {
-            case Cycle.Cycle:
-                musicStack.Push(musicList[track]);
-                track = Util.changeCycleValue(musicList.Count, track, increase);
-                break;
             case Cycle.Random:
+                if (musicList.Count > 2)
+                {
+                    BeatMap rand = nowMusic;
+                    while (nowMusic.Equals(rand))
+                    {
+                        rand = musicList[Random.Range(0, musicList.Count)];
+                    }
+
+                    music = rand;
+                }
+                break;
+            case Cycle.Cycle:
+                music = getTrackbyNowBeatMap(1);
+                break;
+        }
+
+        return music;
+    }
+
+    public BeatMap beforeTrack()
+    {
+        return musicStack.Pop();
+    }
+
+    public void setTrack(BeatMap music)
+    {
+        musicStack.Push(music);
+        
+        isMusicEnd = false;
+        nowMusic = music;
+        audio.clip = nowMusic.Clip;
+        audio.time = 0;
+        audio.Play();
+    }
+    
+    /*
+     * case Cycle.Random:
                 musicStack.Push(musicList[track]);
                 if (musicList.Count > 2)
                 {
@@ -101,17 +139,5 @@ public class AudioManager : MonoBehaviour
                     track = rand;
                 }
                 break;
-        }
-        
-        return musicList[track];
-    }
-
-    public void setTrack(BeatMap music)
-    {
-        isMusicEnd = false;
-        nowMusic = music;
-        audio.clip = nowMusic.Clip;
-        audio.time = 0;
-        audio.Play();
-    }
+     */
 }

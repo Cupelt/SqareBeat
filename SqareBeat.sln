@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{d45a9015-bb4b-10f1-9e77-09997f6036d0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JetBrains.Frontend.2020.2", "JetBrains.Frontend.2020.2.csproj", "{c713f2e6-15e0-3f60-6cba-e8eb79bd80bf}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,10 +13,6 @@ Global
 		{d45a9015-bb4b-10f1-9e77-09997f6036d0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{d45a9015-bb4b-10f1-9e77-09997f6036d0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{d45a9015-bb4b-10f1-9e77-09997f6036d0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{c713f2e6-15e0-3f60-6cba-e8eb79bd80bf}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{c713f2e6-15e0-3f60-6cba-e8eb79bd80bf}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{c713f2e6-15e0-3f60-6cba-e8eb79bd80bf}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{c713f2e6-15e0-3f60-6cba-e8eb79bd80bf}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

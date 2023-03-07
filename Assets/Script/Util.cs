@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using NLayer;
 using UnityEngine;
@@ -7,7 +8,7 @@ namespace com.cupelt.util
 {
     public static class Util
     {
-        public static Component CopyComponent(Component original, GameObject destination)
+        public static Component copyComponent(Component original, GameObject destination)
         {
             System.Type type = original.GetType();
             bool active = destination.active;
@@ -115,14 +116,15 @@ namespace com.cupelt.util
 
 	        return ac;
         }
+
     }
-    
+
     public delegate float Ease(float t);
 
     public static class Tweening
     {
 	    public static float fixedTime(float t) => Mathf.Max(Mathf.Min(t, 1f), 0f);
-	    
+
 	    public static float Linear(float t) => t;
 
 		public static float InQuad(float t) => t * t;
@@ -189,16 +191,16 @@ namespace com.cupelt.util
 			return 1 - InElastic((1 - t) * 2) / 2;
 		}
 
-		public static float InBack(float t)
+		public static float inBack(float t)
 		{
 			float s = 1.70158f;
 			return t * t * ((s + 1) * t - s);
 		}
-		public static float OutBack(float t) => 1 - InBack(1 - t);
+		public static float OutBack(float t) => 1 - inBack(1 - t);
 		public static float InOutBack(float t)
 		{
-			if (t < 0.5) return InBack(t * 2) / 2;
-			return 1 - InBack((1 - t) * 2) / 2;
+			if (t < 0.5) return inBack(t * 2) / 2;
+			return 1 - inBack((1 - t) * 2) / 2;
 		}
     }
 }

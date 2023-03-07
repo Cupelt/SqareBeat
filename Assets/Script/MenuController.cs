@@ -136,7 +136,7 @@ public class MenuController : MonoBehaviour
             }
 
             selectBar.anchoredPosition3D = Vector3.Lerp(selectBar.anchoredPosition3D,
-                buttons[nowSelect].gameObject.GetComponent<RectTransform>().anchoredPosition3D, Time.deltaTime * 8);
+                buttons[nowSelect].gameObject.GetComponent<RectTransform>().anchoredPosition3D, Time.deltaTime * 15);
         }
         else if (!freeMove)
         {

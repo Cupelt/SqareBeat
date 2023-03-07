@@ -92,5 +92,9 @@
 				}
 			}
 		}
+	},
+	"map_select": {
+		"Map_info" : "Map Info",
+		"Maps" : "Maps"
 	}
 }
